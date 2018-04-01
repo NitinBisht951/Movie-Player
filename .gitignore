@@ -1,11 +1,5 @@
-#OS junk files
 [Tt]humbs.db
-*.DS_Store
-new.txt
-n.txt
 
-Main/data/*.png
-*.mp4
-*.mkv
-*.jpg
-Main/Videos.pde
+/Main/data/*.png
+
+/Main/Videos.pde
