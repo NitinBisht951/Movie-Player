@@ -1,2 +1,10 @@
-Main/data/*.png
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
 new.txt
+
+Main/data
+*.png
+*.mp4
+*.mkv
+*.jpg
