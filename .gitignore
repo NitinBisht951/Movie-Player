@@ -4,8 +4,7 @@
 new.txt
 n.txt
 
-Main/data
-*.png
+Main/data/*.png
 *.mp4
 *.mkv
 *.jpg
