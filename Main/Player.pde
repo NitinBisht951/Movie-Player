@@ -1,73 +1,77 @@
-class Player  extends Activeness {
+class Player extends Activeness {
 
-  Movie movie;
-  String moviePath;
-  boolean notStarted;
-  boolean isActive;
-  boolean isFullScreen;
-  boolean paused;
-  String durationString;
-  //to control the speed of the movie
-  float speed;
-  //coordinate of topleft corner of the screen
-  PVector start;
-  //used to show small images in between
-  PImage tempImg;
+  Movie movie;                          // movie to be played
+  String moviePath;                     // movie absolute path
+  String movieName;
 
-  //for how long the time bar should be active after the mouse is moved
-  int showBarCount;
+  boolean isFullScreen;                 //to check whether the video is currently fullscreen or not
+  boolean isPaused;                     //to check whether the video is currently paused or not
+  String durationString;                //to save duration of the video in hh:mm:ss form
+
+  float speed;                          //to control the speed of the movie
+  PImage tempImg;                       //used to show small images in between
+
+  int showBarCount;                     //for how long the time bar should be active after the mouse is moved
   int mouseStableCount;
+  boolean begun;                        // to start the movie
 
-  Player(PApplet sketch, String path) {
+  Player() {
     resetSettings();
-    moviePath = path;
-    // Load and play the video in a loop
-    movie = new Movie(sketch, moviePath);
-    if(isActive)
-    movie.loop();
+    this.moviePath = null;
+    this.movieName = null;
+  }
 
-    tempImg = createImage(144, 80, RGB);
-    //format duration time
-    durationString = formatTime(int(movie.duration()));
+  Player(String moviePath) {
+    resetSettings();
+    this.moviePath = moviePath;
+    thread("initMovie");
+    
   }
 
   void resetSettings() {
     moviePath = null;
-    notStarted = true;
-    start = new PVector(0, 0);
+    begun = false;
     speed = 1.0;
     showBarCount = 0;
     mouseStableCount = 0;
     isFullScreen = false;
-    paused = false;
-    //settings for showing time and total length of movie
-    textSize(20);
+    isPaused = false;
+    tempImg = createImage(144, 80, RGB);
   }
 
-  void updateMovie(Movie newMov) {
-    movie = newMov;
-    if(isActive) movie.loop();
-    else movie.stop();
+  void updateMovie(String moviePath) {
+    //if there is still previous movie present, stop it first
+    if (movie != null) {
+      movie.stop();
+    }
+    this.moviePath = moviePath;
+    movieName = getNameFromPath(moviePath);
+    movie = new Movie(mySketch, moviePath);
+    resetSettings();
   }
 
-  void play() {
-    //background(0);
-    //println(start.x, start.y, movie.width);
-    if (notStarted == true) {
-      //find proper start values to layout the video in the middle of the screen
-      start.x = (width-movie.width)/2;
-      start.y = (height-movie.height)/2;
-      if (!(movie.width < 5))
-        notStarted = false;
+  void begin() {
+    // start the movie and initialize the durationString
+    if (begun == false) {
+      if (isActive)  movie.loop();
+      durationString = formatTime(int(movie.duration()));
+      //println(durationString);
+      begun = true;
     }
 
+    //showing the movie frame by frame
     if (isFullScreen)
       image(movie, 0, 0, width, height);
-    else
-      image(movie, start.x, start.y);
+    else {
+      imageMode(CENTER);
+      image(movie, width/2, height/2);
+      imageMode(CORNER);
+    }
 
+    // to display the time bar
     if (showBarCount >= 0) {
       showTimeBar(movie);
+      showBarCount--;
       if (mouseOnTimeBar()) {
         stroke(0);
         strokeWeight(5);
@@ -78,70 +82,45 @@ class Player  extends Activeness {
     }
   }
 
-  void movieForward(Movie movie, int seconds) {
-    showBarCount = THRESHOLD_BAR_COUNT;
-    if (movie.time() < (movie.duration()-(seconds+0.2)))
-      movie.jump(movie.time()+seconds);
-    else movie.jump(0);
-  }
-
-  void movieBackward(Movie movie, int seconds) {
-    showBarCount = THRESHOLD_BAR_COUNT;
-    if (movie.time() > (seconds+0.2))
-      movie.jump(movie.time()-seconds);
-    else movie.jump(0);
-  }
-
-  void decreaseSpeed(Movie movie, float change) {
-    if (speed >= MIN_PLAYBACK_SPEED)
-      changeSpeed(movie, -change);
-  }
-
-  void increaseSpeed(Movie movie, float change) {
-    if (speed <= MAX_PLAYBACK_SPEED)
-      changeSpeed(movie, change);
-  }
-
-  void changeSpeed(Movie movie, float change) {
-    speed += change;
-    movie.speed(speed);
-    println(speed);
-  }
-
   void pauseOrPlay(Movie movie) {
     showBarCount = THRESHOLD_BAR_COUNT;
-    if (paused == false) {
+    if (isPaused == false) {
       movie.pause();
-      paused = true;
+      isPaused = true;
     } else {
       movie.play();
-      paused = false;
+      isPaused = false;
     }
   }
 
   void showTimeBar(Movie movie) {
     stroke(0);
     strokeWeight(1);
-    fill(255);
+    fill(150);
     rect(PLAYER_MARGIN, height-3.2*PLAYER_MARGIN, 10*PLAYER_MARGIN, 1.2*PLAYER_MARGIN, 3);
 
     fill(0);
+    textSize(20);                                          //settings for showing time and total length of movie
     textAlign(LEFT, TOP);
     text(formatTime(int(movie.time()))+"/"+durationString, 1.4*PLAYER_MARGIN, height-3.2*PLAYER_MARGIN);
     textAlign(LEFT, BASELINE);
 
     stroke(0);
     strokeWeight(2);
-    fill(255);
+    fill(200);
     rect(PLAYER_MARGIN, height-2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, PLAYER_MARGIN, 3);
     float durLength = map(movie.time(), 0, movie.duration(), 0, width-4*PLAYER_MARGIN);
 
+    fill(255);
     rect(2*PLAYER_MARGIN, height-1.75*PLAYER_MARGIN, width-4*PLAYER_MARGIN, 0.5*PLAYER_MARGIN, 3);
     stroke(255, 0, 0);
     strokeWeight(8);
     line(2*PLAYER_MARGIN, height-1.5*PLAYER_MARGIN, 2*PLAYER_MARGIN+durLength, height-1.5*PLAYER_MARGIN);
 
-    showBarCount--;
+    textSize(40);                                          //settings for showing time and total length of movie
+    textAlign(LEFT, TOP);
+    text(movieName, 1.4*PLAYER_MARGIN, 3.2*PLAYER_MARGIN);
+    textAlign(LEFT, BASELINE);
   }
 
   //tells whether the mouse is over the time bar
@@ -149,7 +128,7 @@ class Player  extends Activeness {
     if ((mouseY < (height-1.25*PLAYER_MARGIN))&&(mouseY > (height-1.75*PLAYER_MARGIN))&&(mouseX <= (width-2*PLAYER_MARGIN))&&(mouseX >= 2*PLAYER_MARGIN))
       return true;
     else
-    return false;
+      return false;
   }
 
   void mouseMoved() {
@@ -164,37 +143,38 @@ class Player  extends Activeness {
   }
 
   void mouseClicked() {
+    //println(mouseX,mouseY);
     if (mouseOnTimeBar())
-      jumpTo(movie, mouseX);
-    else
+      jumpTo(movie);
+    else if (!((mouseX > PLAYER_MARGIN && mouseX < width-PLAYER_MARGIN) && (mouseY > height-2*PLAYER_MARGIN && mouseY < height-PLAYER_MARGIN)))
       pauseOrPlay(movie);
   }
 
   void keyPressed() {
     if (key == CODED) {
       if (keyCode == LEFT) {
-        movieBackward(movie, 5);
+        movieBackward(5);
       } else if (keyCode == DOWN) {
-        movieBackward(movie, 30);
+        movieBackward(30);
       } else if (keyCode == RIGHT) {
-        movieForward(movie, 5);
+        movieForward(5);
       } else if (keyCode == UP) {
-        movieForward(movie, 30);
+        movieForward(30);
       }
     } else if (key == SPACE) {
       pauseOrPlay(movie);
     } else if (key == 's') {
-      increaseSpeed(movie, 0.05);
+      increaseSpeed(0.05);
     } else if (key == 'd') {
-      decreaseSpeed(movie, 0.05);
+      decreaseSpeed(0.05);
     } else if (key == 'f') {
       isFullScreen = !isFullScreen;
     }
   }
 
   //jumps to specific location by clicking on the time bar
-  void jumpTo(Movie movie, float x) {
-    float time = map(x, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, movie.duration());
+  void jumpTo(Movie movie) {
+    float time = map(mouseX, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, movie.duration());
     //println(formatTime(int(time)));
     movie.jump(time);
   }
@@ -208,5 +188,35 @@ class Player  extends Activeness {
     }
     img.copy(copyMovie, 0, 0, copyMovie.width, copyMovie.height, 0, 0, img.width, img.height);
     copyMovie.jump(pTime);
+  }
+
+  void movieForward(int seconds) {
+    showBarCount = THRESHOLD_BAR_COUNT;
+    if (movie.time() < (movie.duration()-(seconds+0.2)))
+      movie.jump(movie.time()+seconds);
+    else movie.jump(0);
+  }
+
+  void movieBackward(int seconds) {
+    showBarCount = THRESHOLD_BAR_COUNT;
+    if (movie.time() > (seconds+0.2))
+      movie.jump(movie.time()-seconds);
+    else movie.jump(0);
+  }
+
+  void decreaseSpeed(float change) {
+    if (speed >= MIN_PLAYBACK_SPEED)
+      changeSpeed(-change);
+  }
+
+  void increaseSpeed(float change) {
+    if (speed <= MAX_PLAYBACK_SPEED)
+      changeSpeed(change);
+  }
+
+  void changeSpeed(float change) {
+    speed += change;
+    movie.speed(speed);
+    println(speed);
   }
 }

@@ -1,4 +1,5 @@
-//Constants for CANVAS, VIDEOBAR and INFOBAR 
+
+//Constants for CANVAS, VIDEOBAR and INFOBAR
 final static float DISPLAY_WIDTH = 1366;
 final static float DISPLAY_HEIGHT = 768;
 final static float MARGIN = 25;
@@ -40,7 +41,7 @@ final static char SPACE = ' ';
 
 
 //For button
-
+final static String OPEN_BUTTON = "open_button.png";
 final static String PLAY_SMALL = "play_small.png";
 final static String PLAY_MEDIUM = "play_medium.png";
 final static String PLAY_LARGE = "play_large.png";

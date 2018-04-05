@@ -1,12 +1,13 @@
 class Canvas extends Activeness {
-  Videos[][] videos = new Videos[NO_OF_ROWS][NO_OF_COLS];
-  Videos activeVideo;
+  VideoDisplayer[][] videos = new VideoDisplayer[NO_OF_ROWS][NO_OF_COLS];
+  VideoDisplayer activeVideo;
   int activeVideoIndex = 0;
 
   //viewing modes for later versions
   boolean viewMode = GRID_VIEW;
 
   //buttons
+  Button openVideoButton;
   Button closeButton;
   Button viewModeButton;
 
@@ -16,32 +17,35 @@ class Canvas extends Activeness {
     for (int row = 0; row < NO_OF_ROWS; row++) {
       for (int col = 0; col < NO_OF_COLS; col++) {
         int i = row * NO_OF_ROWS + col;
-        float x = 2*MARGIN + col*(GRID_VID_WIDTH + MARGIN);
-        float y = 7*MARGIN + row*(GRID_VID_HEIGHT + MARGIN);
-        videos[row][col] = new Videos("TITLE"+i, "PATH"+i, new PVector(x, y));
+        float x = CANVAS_LEFT_MARGIN + col*(GRID_VID_WIDTH + MARGIN);
+        float y = CANVAS_TOP_MARGIN + row*(GRID_VID_HEIGHT + MARGIN);
+        videos[row][col] = new VideoDisplayer("Title", "Path", new PVector(x, y));
       }
     }
-    activeVideo = new Videos("Title", "Path", new PVector(CANVAS_LEFT_MARGIN, CANVAS_TOP_MARGIN), VIDEO_BAR_WIDTH-4*MARGIN, DISPLAY_HEIGHT-9*MARGIN);
+    activeVideo = new VideoDisplayer("Title", "Path", new PVector(CANVAS_LEFT_MARGIN, CANVAS_TOP_MARGIN), VIDEO_BAR_WIDTH-4*MARGIN, DISPLAY_HEIGHT-9*MARGIN);
 
     //buttons
+    openVideoButton = new Button(OPEN_BUTTON);
     closeButton = new Button(CLOSE_SMALL);
     viewModeButton = new Button(VIEW_MODE_SMALL);
   }
 
   void show() {
-
+    //show open video button at the topleft corner
+    openVideoButton.draw(CANVAS_LEFT_MARGIN, CANVAS_LEFT_MARGIN);
     //show close button at the topright corner
     closeButton.draw(DISPLAY_WIDTH-closeButton.getWidth(), 0, 255);
-
     //show view mode button at the topright corner before close button
     viewModeButton.draw(DISPLAY_WIDTH-closeButton.getWidth()-viewModeButton.getWidth()-5, 0, 255);
 
     //show list of videos
     drawVideoBar();
 
-    //line separation between VideoBar and InfoBar
     stroke(255);
     strokeWeight(2);
+    //line separation between open button and VideoBar
+    line(CANVAS_LEFT_MARGIN, 5*MARGIN, VIDEO_BAR_WIDTH - CANVAS_LEFT_MARGIN, 5*MARGIN);
+    //line separation between VideoBar and InfoBar
     line(VIDEO_BAR_WIDTH, MARGIN, VIDEO_BAR_WIDTH, DISPLAY_HEIGHT - MARGIN);
 
     //show info about the active video
@@ -72,8 +76,11 @@ class Canvas extends Activeness {
   }
 
   void mouseClicked() {
-    //check where the mouse is
-    if (viewModeButton.isClicked()) {
+    if (openVideoButton.isClicked()) {
+      // println("opened");
+      selectInput("Select a video to open:", "fileSelected");
+      
+    } else if (viewModeButton.isClicked()) {
       viewMode = !viewMode;
     } else if (closeButton.isClicked()) {
       exit();
@@ -81,17 +88,7 @@ class Canvas extends Activeness {
       // play the activeVideo
       //activeVideo.playButton.changeImg();
     } else if (viewMode == GRID_VIEW) {
-      for (int row = 0; row < NO_OF_ROWS; row++) {
-        for (int col = 0; col < NO_OF_COLS; col++) {
-          if(videos[row][col].playButton.isClicked()) {
-          int i = row * NO_OF_ROWS + col;
-          activeVideoIndex = i;
-          text("pl",50,500);
-          //play the i th video
-         // videos[row][col].play();
-          }
-        }
-      }
+      //for the view grid mode
     }
   }
 
