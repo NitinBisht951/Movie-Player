@@ -21,13 +21,6 @@ class Player extends Activeness {
     this.movieName = null;
   }
 
-  Player(String moviePath) {
-    resetSettings();
-    this.moviePath = moviePath;
-    thread("initMovie");
-    
-  }
-
   void resetSettings() {
     moviePath = null;
     begun = false;
@@ -40,20 +33,24 @@ class Player extends Activeness {
   }
 
   void updateMovie(String moviePath) {
+    println("updateMovie");
     //if there is still previous movie present, stop it first
     if (movie != null) {
+      println("stopped");
       movie.stop();
     }
-    this.moviePath = moviePath;
-    movieName = getNameFromPath(moviePath);
-    movie = new Movie(mySketch, moviePath);
     resetSettings();
+    this.moviePath = moviePath;
+    this.movieName = getNameFromPath(moviePath);
+    movie = new Movie(mySketch, moviePath);
   }
 
   void begin() {
     // start the movie and initialize the durationString
     if (begun == false) {
-      if (isActive)  movie.loop();
+      while (movie == null);
+      println("begun");
+      if (isActive)  movie.play();
       durationString = formatTime(int(movie.duration()));
       //println(durationString);
       begun = true;
@@ -68,9 +65,10 @@ class Player extends Activeness {
       imageMode(CORNER);
     }
 
-    // to display the time bar
+    // to display the time bar and movie name
     if (showBarCount >= 0) {
-      showTimeBar(movie);
+      showTimeBar();
+      showMovieName();
       showBarCount--;
       if (mouseOnTimeBar()) {
         stroke(0);
@@ -82,7 +80,7 @@ class Player extends Activeness {
     }
   }
 
-  void pauseOrPlay(Movie movie) {
+  void pauseOrPlay() {
     showBarCount = THRESHOLD_BAR_COUNT;
     if (isPaused == false) {
       movie.pause();
@@ -93,7 +91,7 @@ class Player extends Activeness {
     }
   }
 
-  void showTimeBar(Movie movie) {
+  void showTimeBar() {
     stroke(0);
     strokeWeight(1);
     fill(150);
@@ -114,9 +112,12 @@ class Player extends Activeness {
     fill(255);
     rect(2*PLAYER_MARGIN, height-1.75*PLAYER_MARGIN, width-4*PLAYER_MARGIN, 0.5*PLAYER_MARGIN, 3);
     stroke(255, 0, 0);
-    strokeWeight(8);
+    strokeWeight(7);
+    strokeCap(SQUARE);
     line(2*PLAYER_MARGIN, height-1.5*PLAYER_MARGIN, 2*PLAYER_MARGIN+durLength, height-1.5*PLAYER_MARGIN);
+  }
 
+  void showMovieName() {
     textSize(40);                                          //settings for showing time and total length of movie
     textAlign(LEFT, TOP);
     text(movieName, 1.4*PLAYER_MARGIN, 3.2*PLAYER_MARGIN);
@@ -135,19 +136,20 @@ class Player extends Activeness {
     showBarCount = THRESHOLD_BAR_COUNT;
 
     if (mouseOnTimeBar() && mouseStableCount==0) {
-      copyFrame(movie, tempImg, mouseX);
+      copyFrame(tempImg, mouseX);
       mouseStableCount = THRESHOLD_STABLE_COUNT;
     }
-    if (mouseStableCount > 0 && mouseOnTimeBar())
+    if (mouseStableCount > 0 && mouseOnTimeBar()) {
       mouseStableCount--;
+    }
   }
 
   void mouseClicked() {
     //println(mouseX,mouseY);
     if (mouseOnTimeBar())
-      jumpTo(movie);
+      jumpTo(mouseX);
     else if (!((mouseX > PLAYER_MARGIN && mouseX < width-PLAYER_MARGIN) && (mouseY > height-2*PLAYER_MARGIN && mouseY < height-PLAYER_MARGIN)))
-      pauseOrPlay(movie);
+      pauseOrPlay();
   }
 
   void keyPressed() {
@@ -162,32 +164,35 @@ class Player extends Activeness {
         movieForward(30);
       }
     } else if (key == SPACE) {
-      pauseOrPlay(movie);
+      pauseOrPlay();
     } else if (key == 's') {
       increaseSpeed(0.05);
     } else if (key == 'd') {
       decreaseSpeed(0.05);
     } else if (key == 'f') {
       isFullScreen = !isFullScreen;
+    } else if (key == BACKSPACE) {
+      movie.stop();
+      mov.initActivity('c');
     }
   }
 
   //jumps to specific location by clicking on the time bar
-  void jumpTo(Movie movie) {
-    float time = map(mouseX, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, movie.duration());
+  void jumpTo(float location) {
+    float time = map(location, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, movie.duration());
     //println(formatTime(int(time)));
     movie.jump(time);
   }
 
-  void copyFrame(Movie copyMovie, PImage img, float x) {
-    float newTime = map(x, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, copyMovie.duration());
-    float pTime = copyMovie.time();
-    copyMovie.jump(newTime);
-    if (copyMovie.available()) {
-      copyMovie.read();
+  void copyFrame(PImage img, float location) {
+    float newTime = map(location, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, movie.duration());
+    float pTime = movie.time();
+    movie.jump(newTime);
+    if (movie.available()) {
+      movie.read();
     }
-    img.copy(copyMovie, 0, 0, copyMovie.width, copyMovie.height, 0, 0, img.width, img.height);
-    copyMovie.jump(pTime);
+    img.copy(movie, 0, 0, movie.width, movie.height, 0, 0, img.width, img.height);
+    movie.jump(pTime);
   }
 
   void movieForward(int seconds) {

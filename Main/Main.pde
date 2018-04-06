@@ -1,14 +1,10 @@
 import processing.video.*;
 
 MoviePlayer mov;
-
 PApplet mySketch;
-String sketchPath;
 
 void setup() {
   fullScreen();
-  sketchPath = sketchPath()+"/vids/";
-
 
   mySketch = this;
   mov = new MoviePlayer();
@@ -42,12 +38,6 @@ void fileSelected(File selection) {
     mov.player.updateMovie(selection.getAbsolutePath());
     mov.initActivity('p');
   }
-}
-
-void initMovie() {
-  mov.player.movieName = getNameFromPath(mov.player.moviePath);
-  // Load and play the video in a loop
-  mov.player.movie = new Movie(mySketch, mov.player.moviePath);
 }
 
 String getNameFromPath(String path) {

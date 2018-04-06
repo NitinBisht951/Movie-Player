@@ -10,16 +10,8 @@ class MoviePlayer {
   Movie tempMovie;
 
   MoviePlayer() {
-    movienames = listFileNames(sketchPath);
-    int i = 0;
-    if (movienames[i].indexOf(".mp4") >= 0 || movienames[i].indexOf(".MP4") >= 0 );
-    else exit();
-
-    String movieFullPath = sketchPath + movienames[i];
-
-    println(movieFullPath);
+    player = new Player();
     canvas = new Canvas();
-    player = new Player(movieFullPath);
     initActivity('c');
   }
 
@@ -48,6 +40,8 @@ class MoviePlayer {
   }
 
   void keyPressed() {
+    //if(key == 'p') initActivity('p');
+    //else
     if (canvas.isActive()) canvas.keyPressed();
     else if (player.isActive()) player.keyPressed();
   }
