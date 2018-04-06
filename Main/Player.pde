@@ -26,7 +26,7 @@ class Player extends Activeness {
     begun = false;
     speed = 1.0;
     showBarCount = 0;
-    mouseStableCount = 0;
+    mouseStableCount = THRESHOLD_MOUSE_STABLE_COUNT;
     isFullScreen = false;
     isPaused = false;
     tempImg = createImage(144, 80, RGB);
@@ -135,12 +135,15 @@ class Player extends Activeness {
   void mouseMoved() {
     showBarCount = THRESHOLD_BAR_COUNT;
 
-    if (mouseOnTimeBar() && mouseStableCount==0) {
-      copyFrame(tempImg, mouseX);
-      mouseStableCount = THRESHOLD_STABLE_COUNT;
-    }
-    if (mouseStableCount > 0 && mouseOnTimeBar()) {
-      mouseStableCount--;
+    if (mouseOnTimeBar()) {
+      println(mouseX,mouseStableCount);
+      if (mouseStableCount == 0 && pmouseX == mouseX) {
+        copyFrame(tempImg, mouseX);
+        mouseStableCount = THRESHOLD_MOUSE_STABLE_COUNT;
+      } else {
+        if (pmouseX == mouseX) mouseStableCount--;
+        else mouseStableCount = THRESHOLD_MOUSE_STABLE_COUNT;
+      }
     }
   }
 
@@ -173,6 +176,7 @@ class Player extends Activeness {
       isFullScreen = !isFullScreen;
     } else if (key == BACKSPACE) {
       movie.stop();
+
       mov.initActivity('c');
     }
   }
