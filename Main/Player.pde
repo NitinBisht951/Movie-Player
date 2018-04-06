@@ -12,7 +12,9 @@ class Player extends Activeness {
   PImage tempImg;                       //used to show small images in between
 
   int showBarCount;                     //for how long the time bar should be active after the mouse is moved
-  int mouseStableCount;
+  int lastSnapshotIndex;
+  int currentSnapshotIndex;
+  float snapshotGap;
   boolean begun;                        // to start the movie
 
   Player() {
@@ -26,9 +28,11 @@ class Player extends Activeness {
     begun = false;
     speed = 1.0;
     showBarCount = 0;
-    mouseStableCount = THRESHOLD_MOUSE_STABLE_COUNT;
     isFullScreen = false;
     isPaused = false;
+    lastSnapshotIndex = 0;
+    currentSnapshotIndex = 1;
+    snapshotGap = 0;
     tempImg = createImage(144, 80, RGB);
   }
 
@@ -52,7 +56,7 @@ class Player extends Activeness {
       println("begun");
       if (isActive)  movie.play();
       durationString = formatTime(int(movie.duration()));
-      //println(durationString);
+      snapshotGap = movie.duration()/NO_OF_SNAPSHOTS;
       begun = true;
     }
 
@@ -71,11 +75,20 @@ class Player extends Activeness {
       showMovieName();
       showBarCount--;
       if (mouseOnTimeBar()) {
+        //println(pmouseX, mouseX);
+        if (pmouseX == mouseX) {
+          //code for short snapshots     
+          float tempTime = map(mouseX, 2*PLAYER_MARGIN, (width-2*PLAYER_MARGIN), 0, movie.duration());
+          currentSnapshotIndex = int(tempTime/snapshotGap);
+          if (currentSnapshotIndex != lastSnapshotIndex) copyFrame(currentSnapshotIndex);
+          lastSnapshotIndex = currentSnapshotIndex;
+        }
         stroke(0);
         strokeWeight(5);
         noFill();
         rect(mouseX-tempImg.width/2, height-HSCALE*PLAYER_MARGIN, tempImg.width, tempImg.height);
         image(tempImg, mouseX-tempImg.width/2, height-HSCALE*PLAYER_MARGIN);
+        showBarCount = THRESHOLD_BAR_COUNT;
       }
     }
   }
@@ -115,6 +128,14 @@ class Player extends Activeness {
     strokeWeight(7);
     strokeCap(SQUARE);
     line(2*PLAYER_MARGIN, height-1.5*PLAYER_MARGIN, 2*PLAYER_MARGIN+durLength, height-1.5*PLAYER_MARGIN);
+    strokeCap(ROUND);                    //set back to default
+
+    stroke(0);
+    strokeWeight(3);
+
+    float snapshotDistance = map(snapshotGap, 0, movie.duration(), 0, width-4*PLAYER_MARGIN);
+    for (int i = 0; i <NO_OF_SNAPSHOTS; i++) 
+      point(i*snapshotDistance+2*PLAYER_MARGIN, height-1.5*PLAYER_MARGIN);
   }
 
   void showMovieName() {
@@ -134,17 +155,6 @@ class Player extends Activeness {
 
   void mouseMoved() {
     showBarCount = THRESHOLD_BAR_COUNT;
-
-    if (mouseOnTimeBar()) {
-      println(mouseX,mouseStableCount);
-      if (mouseStableCount == 0 && pmouseX == mouseX) {
-        copyFrame(tempImg, mouseX);
-        mouseStableCount = THRESHOLD_MOUSE_STABLE_COUNT;
-      } else {
-        if (pmouseX == mouseX) mouseStableCount--;
-        else mouseStableCount = THRESHOLD_MOUSE_STABLE_COUNT;
-      }
-    }
   }
 
   void mouseClicked() {
@@ -188,14 +198,14 @@ class Player extends Activeness {
     movie.jump(time);
   }
 
-  void copyFrame(PImage img, float location) {
-    float newTime = map(location, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, movie.duration());
+  void copyFrame(int snapshotIndex) {
+    float newTime = snapshotIndex*snapshotGap;
     float pTime = movie.time();
     movie.jump(newTime);
     if (movie.available()) {
       movie.read();
     }
-    img.copy(movie, 0, 0, movie.width, movie.height, 0, 0, img.width, img.height);
+    tempImg.copy(movie, 0, 0, movie.width, movie.height, 0, 0, tempImg.width, tempImg.height);
     movie.jump(pTime);
   }
 

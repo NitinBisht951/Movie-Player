@@ -36,7 +36,7 @@ final static float MIN_PLAYBACK_SPEED = 0.20;
 final static float MAX_PLAYBACK_SPEED = 2.00;
 final static int THRESHOLD_BAR_COUNT = 200;
 
-final static int THRESHOLD_MOUSE_STABLE_COUNT = 2;
+final static int NO_OF_SNAPSHOTS = 80;
 final static char SPACE = ' ';
 
 
