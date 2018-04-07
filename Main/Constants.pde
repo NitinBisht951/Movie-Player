@@ -1,15 +1,14 @@
-
 //Constants for CANVAS, VIDEOBAR and INFOBAR
 final static float DISPLAY_WIDTH = 1366;
 final static float DISPLAY_HEIGHT = 768;
-final static float MARGIN = 25;
+final static float CANVAS_MARGIN = 25;
 
 final static float VIDEO_BAR_RATIO = 2.0/3;              //2.0 not 2
 final static float VIDEO_BAR_WIDTH = VIDEO_BAR_RATIO * DISPLAY_WIDTH;
-final static float GRID_VID_WIDTH = (VIDEO_BAR_WIDTH - 6*MARGIN)/3;
-final static float GRID_VID_HEIGHT = (DISPLAY_HEIGHT - 11*MARGIN)/3;
-final static float CANVAS_LEFT_MARGIN = 2*MARGIN;
-final static float CANVAS_TOP_MARGIN = 7*MARGIN;
+final static float GRID_VID_WIDTH = (VIDEO_BAR_WIDTH - 6*CANVAS_MARGIN)/3;
+final static float GRID_VID_HEIGHT = (DISPLAY_HEIGHT - 11*CANVAS_MARGIN)/3;
+final static float CANVAS_LEFT_MARGIN = 2*CANVAS_MARGIN;
+final static float CANVAS_TOP_MARGIN = 7*CANVAS_MARGIN;
 
 final static float TITLE_MARGIN_FACTOR = 0.85;
 
@@ -45,6 +44,8 @@ final static String OPEN_BUTTON = "open_button.png";
 final static String PLAY_SMALL = "play_small.png";
 final static String PLAY_MEDIUM = "play_medium.png";
 final static String PLAY_LARGE = "play_large.png";
+final static String PLAY_BLACK_SMALL = "play_black_small.png";
+final static String PLAY_BLACK_MEDIUM = "play_black_medium.png";
 
 final static String CLOSE_SMALL = "close_small.png";
 final static String CLOSE_MEDIUM = "close_medium.png";

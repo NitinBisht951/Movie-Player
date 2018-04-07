@@ -16,7 +16,7 @@ class VideoDisplayer {
     this.title = title;
     this.path = path;
     this.corner = corner;
-    this.playButton = new Button(PLAY_SMALL);
+    this.playButton = new Button(PLAY_BLACK_SMALL);
     isEmpty = true;
   }
 
@@ -24,7 +24,7 @@ class VideoDisplayer {
     this(title, path, corner);
     this.vidWidth = vidWidth;
     this.vidHeight = vidHeight;
-    this.playButton.changeImg(PLAY_LARGE);
+    this.playButton.changeImg(PLAY_BLACK_MEDIUM);
   }
 
   void draw() {
@@ -37,21 +37,17 @@ class VideoDisplayer {
 
     fill(0);
     textSize(80*vidHeight/DISPLAY_HEIGHT);
-    float text_X = corner.x + MARGIN*0.3;
+    float text_X = corner.x + CANVAS_MARGIN*0.3;
     float text_Y = corner.y + vidHeight*0.96;
 
     text(title, text_X, text_Y);
 
-    playButton.draw(corner.x,corner.y+5);
+    //places the play button at the center of the VideoBar
+    playButton.draw(corner.x+vidWidth/2-20,corner.y+vidHeight/2-25);
   }
 
   void changeVideo(String path) {
     this.path = path;
-    this.title = separateTitleFromPath(path);
-  }
-
-  String separateTitleFromPath(String path) {
-    String tempTitle = null;
-    return tempTitle;
+    this.title = getNameFromPath(path);
   }
 }

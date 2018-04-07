@@ -42,6 +42,6 @@ void fileSelected(File selection) {
 
 String getNameFromPath(String path) {
   String[] name = splitTokens(path, "\\/");
-  println(name[name.length-1]);
+  // println(name[name.length-1]);
   return(name[name.length-1]);
 }

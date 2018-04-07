@@ -1,5 +1,5 @@
 // This is the ultimate class of the program which
-// encompasses all the other small activity
+// encompasses the other two small activities Canvas and Player
 
 class MoviePlayer {
   Canvas canvas;                      //the first open video activity
@@ -28,7 +28,7 @@ class MoviePlayer {
     if (choice == 'c') {
       canvas.enable();
       player.disable();
-    } else if (choice =='p') { 
+    } else if (choice =='p') {
       canvas.disable();
       player.enable();
     }
