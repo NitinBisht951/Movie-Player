@@ -16,20 +16,20 @@ class Canvas extends Activeness {
   Canvas() {
     for (int row = 0; row < NO_OF_ROWS; row++) {
       for (int col = 0; col < NO_OF_COLS; col++) {
-        int i = row * NO_OF_ROWS + col;
+        //int i = row * NO_OF_ROWS + col;
         float x = CANVAS_LEFT_MARGIN + col*(GRID_VID_WIDTH + CANVAS_MARGIN);
         float y = CANVAS_TOP_MARGIN + row*(GRID_VID_HEIGHT + CANVAS_MARGIN);
         videos[row][col] = new VideoDisplayer("Title", "Path", new PVector(x, y));
       }
     }
     //buttons
-    openVideoButton = new Button(OPEN_BUTTON);
+    openVideoButton = new Button(FOLDER_OPEN_SMALL);
     closeButton = new Button(CLOSE_SMALL);
   }
 
   void show() {
     //show open video button at the topleft corner
-    openVideoButton.draw(CANVAS_LEFT_MARGIN, CANVAS_LEFT_MARGIN);
+    openVideoButton.draw(CANVAS_LEFT_MARGIN, CANVAS_LEFT_MARGIN,255);
     //show close button at the topright corner
     closeButton.draw(DISPLAY_WIDTH-closeButton.getWidth(), 0, 255);
     //show list of videos

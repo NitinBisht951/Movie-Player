@@ -17,6 +17,8 @@ class Player extends Activeness {
   float snapshotGap;
   boolean begun;                        // to start the movie
 
+  float  duration;
+
   Player() {
     resetSettings();
     this.moviePath = null;
@@ -33,6 +35,7 @@ class Player extends Activeness {
     lastSnapshotIndex = 0;
     currentSnapshotIndex = 1;
     snapshotGap = 0;
+    duration = 100;
     tempImg = createImage(144, 80, RGB);
   }
 
@@ -54,9 +57,11 @@ class Player extends Activeness {
     if (begun == false) {
       while (movie == null);
       println("begun");
-      if (isActive)  movie.play();
-      durationString = formatTime(int(movie.duration()));
-      snapshotGap = movie.duration()/NO_OF_SNAPSHOTS;
+      if (isActive)  movie.loop();
+      if(movie.duration() > 1)
+        duration = movie.duration();
+      durationString = formatTime(int(duration));
+      snapshotGap = duration/NO_OF_SNAPSHOTS;
       begun = true;
     }
 
@@ -77,8 +82,8 @@ class Player extends Activeness {
       if (mouseOnTimeBar()) {
         //println(pmouseX, mouseX);
         if (pmouseX == mouseX) {
-          //code for short snapshots     
-          float tempTime = map(mouseX, 2*PLAYER_MARGIN, (width-2*PLAYER_MARGIN), 0, movie.duration());
+          //code for short snapshots
+          float tempTime = map(mouseX, 2*PLAYER_MARGIN, (width-2*PLAYER_MARGIN), 0, duration);
           currentSnapshotIndex = int(tempTime/snapshotGap);
           if (currentSnapshotIndex != lastSnapshotIndex) copyFrame(currentSnapshotIndex);
           lastSnapshotIndex = currentSnapshotIndex;
@@ -120,7 +125,7 @@ class Player extends Activeness {
     strokeWeight(2);
     fill(200);
     rect(PLAYER_MARGIN, height-2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, PLAYER_MARGIN, 3);
-    float durLength = map(movie.time(), 0, movie.duration(), 0, width-4*PLAYER_MARGIN);
+    float durLength = map(movie.time(), 0, duration, 0, width-4*PLAYER_MARGIN);
 
     fill(255);
     rect(2*PLAYER_MARGIN, height-1.75*PLAYER_MARGIN, width-4*PLAYER_MARGIN, 0.5*PLAYER_MARGIN, 3);
@@ -133,8 +138,8 @@ class Player extends Activeness {
     stroke(0);
     strokeWeight(3);
 
-    float snapshotDistance = map(snapshotGap, 0, movie.duration(), 0, width-4*PLAYER_MARGIN);
-    for (int i = 0; i <NO_OF_SNAPSHOTS; i++) 
+    float snapshotDistance = map(snapshotGap, 0, duration, 0, width-4*PLAYER_MARGIN);
+    for (int i = 0; i <NO_OF_SNAPSHOTS; i++)
       point(i*snapshotDistance+2*PLAYER_MARGIN, height-1.5*PLAYER_MARGIN);
   }
 
@@ -193,7 +198,7 @@ class Player extends Activeness {
 
   //jumps to specific location by clicking on the time bar
   void jumpTo(float location) {
-    float time = map(location, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, movie.duration());
+    float time = map(location, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, duration);
     //println(formatTime(int(time)));
     movie.jump(time);
   }
@@ -211,7 +216,7 @@ class Player extends Activeness {
 
   void movieForward(int seconds) {
     showBarCount = THRESHOLD_BAR_COUNT;
-    if (movie.time() < (movie.duration()-(seconds+0.2)))
+    if (movie.time() < (duration-(seconds+0.2)))
       movie.jump(movie.time()+seconds);
     else movie.jump(0);
   }

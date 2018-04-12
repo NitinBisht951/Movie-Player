@@ -41,6 +41,12 @@ final static char SPACE = ' ';
 
 //For button
 final static String OPEN_BUTTON = "open_button.png";
+
+final static String FOLDER_OPEN_SMALL = "folder_open_small.png";
+final static String FOLDER_OPEN_MEDIUM = "folder_open_medium.png";
+final static String FOLDER_BLACK_SMALL = "folder_black_small.png";
+final static String FOLDER_BLACK_MEDIUM = "folder_black_medium.png";
+
 final static String PLAY_SMALL = "play_small.png";
 final static String PLAY_MEDIUM = "play_medium.png";
 final static String PLAY_LARGE = "play_large.png";
