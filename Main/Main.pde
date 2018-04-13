@@ -49,6 +49,11 @@ void fileSelected(File selection) {
   } else {
     String newMoviePath = selection.getAbsolutePath();
     println("\nUser selected " + selection.getName()+"\n");
+    openNewMovie(newMoviePath);
+  }
+}
+
+void openNewMovie(String newMoviePath) {
     if (isAlreadyExists(pathLists, newMoviePath)) {
       pathLists.append(newMoviePath);
       saveData(pathTextFile, pathLists.get(0), false);
@@ -60,7 +65,6 @@ void fileSelected(File selection) {
     mov.canvas.updateVideoDisplayer();
     mov.player.updateMovie(newMoviePath);
     mov.initActivity('p');
-  }
 }
 
 boolean isAlreadyExists(StringList parent, String child) {
@@ -106,8 +110,6 @@ void saveData(String fileName, String newData, boolean appendData) {
     }
   }
 }
-
-
 
 String getNameFromPath(String path) {
   String[] name = splitTokens(path, "\\/");

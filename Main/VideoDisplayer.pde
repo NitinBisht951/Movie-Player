@@ -8,6 +8,7 @@ class VideoDisplayer {
   float vidHeight = GRID_VID_HEIGHT;
 
   Button playButton;
+  Button previewButton;
 
   boolean isEmpty;                        //keeps track of the history
 
@@ -36,18 +37,39 @@ class VideoDisplayer {
     rect(corner.x, corner.y+TITLE_MARGIN_FACTOR*vidHeight, vidWidth, (1-TITLE_MARGIN_FACTOR)*vidHeight);
 
     fill(0);
-    textSize(80*vidHeight/DISPLAY_HEIGHT);
+    textSize(60*vidHeight/DISPLAY_HEIGHT);
     float text_X = corner.x + CANVAS_MARGIN*0.3;
     float text_Y = corner.y + vidHeight*0.96;
 
     text(title, text_X, text_Y);
+    //text(str(isEmpty), text_X, text_Y-20);
 
     //places the play button at the center of the VideoBar
-    playButton.draw(corner.x+vidWidth/2-20,corner.y+vidHeight/2-25);
+    playButton.draw(corner.x+vidWidth/2-20, corner.y+vidHeight/2-25);
   }
 
   void changeVideo(String path) {
     this.path = path;
     this.title = getNameFromPath(path);
+    this.isEmpty = false;
+  }
+  
+  String getPath() {
+    if(isEmpty) return null;
+    else return path;
+  }
+
+  boolean isEmpty() {
+    return isEmpty;
+  }
+ 
+  boolean mouseClicked() {
+    if (playButton.isClicked()) {
+      //play that video
+      return true;
+    } else return false;
+    // else if (previewButton.isClicked()) {
+    //  //preview that video
+    //}
   }
 }

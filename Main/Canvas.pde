@@ -22,7 +22,7 @@ class Canvas extends Activeness {
         videos[row][col] = new VideoDisplayer("Title"+i, "Path", new PVector(x, y));
       }
     }
-
+    updateVideoDisplayer();
     //buttons
     openVideoButton = new Button(FOLDER_OPEN_SMALL);
     closeButton = new Button(CLOSE_SMALL);
@@ -67,11 +67,11 @@ class Canvas extends Activeness {
   }
 
   void updateVideoDisplayer() {
-     int tempSize = pathLists.size();
-     for (int row = 0; row < NO_OF_ROWS; row++) {
+    int tempSize = pathLists.size();
+    for (int row = 0; row < NO_OF_ROWS; row++) {
       for (int col = 0; col < NO_OF_COLS; col++) {
         int i = row * NO_OF_ROWS + col;
-        if(i == tempSize) return;
+        if (i == tempSize) return;
         videos[row][col].changeVideo(pathLists.get(tempSize-i-1));
       }
     }
@@ -82,6 +82,17 @@ class Canvas extends Activeness {
       selectInput("Select a video to open:", "fileSelected");
     } else if (closeButton.isClicked()) {
       exit();
+    } else {
+      for (int row = 0; row < NO_OF_ROWS; row++) {
+        for (int col = 0; col < NO_OF_COLS; col++) {
+          int i = row * NO_OF_ROWS + col;
+          if (videos[row][col].isEmpty()) return;
+          if (videos[row][col].mouseClicked()) {
+            activeVideoIndex = i;
+            openNewMovie(videos[row][col].getPath());
+          }
+        }
+      }
     }
   }
 
@@ -96,6 +107,12 @@ class Canvas extends Activeness {
       } else if (keyCode == DOWN) {
         activeVideoIndex = (activeVideoIndex < NO_OF_VIDS-NO_OF_COLS)?(activeVideoIndex+NO_OF_COLS):(NO_OF_COLS-NO_OF_VIDS+activeVideoIndex);
       }
+    } else if (key == ENTER) {
+      int c = activeVideoIndex % NO_OF_ROWS;
+      int r = (activeVideoIndex - c)/NO_OF_ROWS;
+      //print(activeVideoIndex, r, c); 
+      if (videos[r][c].isEmpty())  return;
+      openNewMovie(videos[r][c].getPath());
     }
   }
 }
