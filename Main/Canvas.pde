@@ -5,7 +5,7 @@
 //InfoBar displays the information about the video in focus, if there is one
 
 class Canvas extends Activeness {
-  VideoDisplayer[][] videos = new VideoDisplayer[NO_OF_ROWS][NO_OF_COLS];
+  VideoDisplayer[] videos = new VideoDisplayer[NO_OF_VIDS];
   int activeVideoIndex = 0;
 
   //buttons
@@ -14,13 +14,12 @@ class Canvas extends Activeness {
 
   //constructor
   Canvas() {
-    for (int row = 0; row < NO_OF_ROWS; row++) {
-      for (int col = 0; col < NO_OF_COLS; col++) {
-        int i = row * NO_OF_ROWS + col;
-        float x = CANVAS_LEFT_MARGIN + col*(GRID_VID_WIDTH + CANVAS_MARGIN);
-        float y = CANVAS_TOP_MARGIN + row*(GRID_VID_HEIGHT + CANVAS_MARGIN);
-        videos[row][col] = new VideoDisplayer("Title"+i, "Path", new PVector(x, y));
-      }
+    for (int i = 0; i < NO_OF_VIDS; i++) {
+      int col = i % NO_OF_ROWS;
+      int row = (i - col)/NO_OF_ROWS;
+      float x = CANVAS_LEFT_MARGIN + col*(GRID_VID_WIDTH + CANVAS_MARGIN);
+      float y = CANVAS_TOP_MARGIN + row*(GRID_VID_HEIGHT + CANVAS_MARGIN);
+      videos[i] = new VideoDisplayer("Title"+i, "Path", new PVector(x, y));
     }
     updateVideoDisplayer();
     //buttons
@@ -48,33 +47,51 @@ class Canvas extends Activeness {
   }
 
   void drawVideoBar() {
-    for (int row = 0; row < NO_OF_ROWS; row++) {
-      for (int col = 0; col < NO_OF_COLS; col++) {
-        int i = row * NO_OF_ROWS + col;
-        if (activeVideoIndex == i) {
-          stroke(255);
-          strokeWeight(LIGHT_WEIGHT);
-        } else {
-          noStroke();
-        }
-        videos[row][col].draw();
+    for (int i = 0; i < NO_OF_VIDS; i++) {
+      if (activeVideoIndex == i) {
+        stroke(VIDEODISPLAYER_STROKE_COLOR);
+        strokeWeight(LIGHT_WEIGHT);
+      } else {
+        noStroke();
       }
+      videos[i].draw();
     }
-  }
-
-  //lists the details of the current active video
-  void drawInfoBar() {
   }
 
   void updateVideoDisplayer() {
     int tempSize = pathLists.size();
-    for (int row = 0; row < NO_OF_ROWS; row++) {
-      for (int col = 0; col < NO_OF_COLS; col++) {
-        int i = row * NO_OF_ROWS + col;
-        if (i == tempSize) return;
-        videos[row][col].changeVideo(pathLists.get(tempSize-i-1));
+    for (int i = 0; i < NO_OF_VIDS; i++) {
+      if (i == tempSize) return;
+      videos[i].changeVideo(pathLists.get(tempSize-i-1));
+    }
+  }
+
+  int getVideoIndexMouseIsOver() {
+    int r = 0;
+    int c = 0;
+    for (; r < NO_OF_ROWS; r++) {
+      boolean isInRowZone = (mouseY > CANVAS_TOP_MARGIN + r*(GRID_VID_HEIGHT + CANVAS_MARGIN))
+        &&(mouseY < CANVAS_TOP_MARGIN + r*(GRID_VID_HEIGHT + CANVAS_MARGIN)+GRID_VID_HEIGHT);
+      if (isInRowZone) {
+        break;
+      }
+    }  
+
+    for (; c < NO_OF_COLS; c++) {
+      boolean isInColZone = (mouseX > CANVAS_LEFT_MARGIN + c*(GRID_VID_WIDTH + CANVAS_MARGIN))
+        &&(mouseX < CANVAS_LEFT_MARGIN + c*(GRID_VID_WIDTH + CANVAS_MARGIN)+GRID_VID_WIDTH);
+      if (isInColZone) {
+        break;
       }
     }
+    int i = (r*NO_OF_ROWS+c);
+    if (r >= NO_OF_ROWS || c >= NO_OF_COLS) i = activeVideoIndex;
+    //println("row : ", r, ", col : ", c, ", index : ", i);
+    return i;
+  }
+
+  void mouseMoved() {
+    activeVideoIndex = getVideoIndexMouseIsOver();
   }
 
   void mouseClicked() {
@@ -83,14 +100,11 @@ class Canvas extends Activeness {
     } else if (closeButton.isClicked()) {
       exit();
     } else {
-      for (int row = 0; row < NO_OF_ROWS; row++) {
-        for (int col = 0; col < NO_OF_COLS; col++) {
-          int i = row * NO_OF_ROWS + col;
-          if (videos[row][col].isEmpty()) return;
-          if (videos[row][col].mouseClicked()) {
-            activeVideoIndex = i;
-            openNewMovie(videos[row][col].getPath());
-          }
+      for (int i = 0; i < NO_OF_VIDS; i++) {
+        if (videos[i].isEmpty()) return;
+        if (videos[i].mouseClicked()) {
+          //activeVideoIndex = i;
+          openMovieAtIndex(i);
         }
       }
     }
@@ -108,11 +122,18 @@ class Canvas extends Activeness {
         activeVideoIndex = (activeVideoIndex < NO_OF_VIDS-NO_OF_COLS)?(activeVideoIndex+NO_OF_COLS):(NO_OF_COLS-NO_OF_VIDS+activeVideoIndex);
       }
     } else if (key == ENTER) {
-      int c = activeVideoIndex % NO_OF_ROWS;
-      int r = (activeVideoIndex - c)/NO_OF_ROWS;
-      //print(activeVideoIndex, r, c); 
-      if (videos[r][c].isEmpty())  return;
-      openNewMovie(videos[r][c].getPath());
+      if (videos[activeVideoIndex].isEmpty())  return;
+      openMovieAtIndex(activeVideoIndex);
+    }
+  }
+
+  void openMovieAtIndex(int index) {
+    String pathToVideo = videos[index].getPath();
+    if (new File(dataPath(pathToVideo)).exists()) {
+      println(dataPath(pathToVideo)+" is still there");
+      openNewMovie(pathToVideo);
+    } else {
+      println("There is no such file existing");
     }
   }
 }

@@ -10,14 +10,19 @@ StringList pathLists = new StringList();
 
 void setup() {
   fullScreen();
-  
+
   pathTextFile = sketchPath()+"/path.txt";
-  if(new File(dataPath(pathTextFile)).exists()) {
-      println(dataPath(pathTextFile));
+  if (new File(dataPath(pathTextFile)).exists()) {
+    println(dataPath(pathTextFile));
   } else {
-     createWriter(pathTextFile);
+    createWriter(pathTextFile);
   }
   pathLists.append(loadStrings(dataPath(pathTextFile)));
+  
+  pathLists.print();
+  verifyPaths(pathLists);
+  println("\n After changes");
+  pathLists.print();
 
   mySketch = this;
   mov = new MoviePlayer();
@@ -25,6 +30,22 @@ void setup() {
 
 void draw() {
   mov.start();
+}
+
+void verifyPaths(StringList list) {
+  boolean somethingDeleted = false;
+  for (int i = 0; i < list.size(); i++) {
+    if (!(new File(dataPath(list.get(i))).exists())) {
+      println(dataPath(list.get(i))+" doesn't exist!!\n Deleting it");
+      list.remove(i);
+      i--;
+      somethingDeleted = true;
+    }
+  }
+  if (somethingDeleted) {
+    saveData(pathTextFile, list.get(0), false);
+    for (int i = 1; i < list.size(); i++) saveData(pathTextFile, list.get(i), true);
+  }
 }
 
 void movieEvent(Movie m) {
@@ -54,17 +75,17 @@ void fileSelected(File selection) {
 }
 
 void openNewMovie(String newMoviePath) {
-    if (isAlreadyExists(pathLists, newMoviePath)) {
-      pathLists.append(newMoviePath);
-      saveData(pathTextFile, pathLists.get(0), false);
-      for (int i = 1; i < pathLists.size(); i++) saveData(pathTextFile, pathLists.get(i), true);
-    } else {
-      pathLists.append(newMoviePath);
-      saveData(pathTextFile, newMoviePath, true);
-    }
-    mov.canvas.updateVideoDisplayer();
-    mov.player.updateMovie(newMoviePath);
-    mov.initActivity('p');
+  if (isAlreadyExists(pathLists, newMoviePath)) {
+    pathLists.append(newMoviePath);
+    saveData(pathTextFile, pathLists.get(0), false);
+    for (int i = 1; i < pathLists.size(); i++) saveData(pathTextFile, pathLists.get(i), true);
+  } else {
+    pathLists.append(newMoviePath);
+    saveData(pathTextFile, newMoviePath, true);
+  }
+  mov.canvas.updateVideoDisplayer();
+  mov.player.updateMovie(newMoviePath);
+  mov.initActivity('p');
 }
 
 boolean isAlreadyExists(StringList parent, String child) {

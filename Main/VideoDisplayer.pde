@@ -9,6 +9,7 @@ class VideoDisplayer {
 
   Button playButton;
   Button previewButton;
+  Button removeButton;
 
   boolean isEmpty;                        //keeps track of the history
 
@@ -30,10 +31,10 @@ class VideoDisplayer {
 
   void draw() {
     // draw image in place of rect
-    fill(100);
+    fill(VIDEODISPLAYER_COLOR);
     rect(corner.x, corner.y, vidWidth, vidHeight);
 
-    fill(255);
+    fill(VIDEODISPLAYER_STROKE_COLOR);
     rect(corner.x, corner.y+TITLE_MARGIN_FACTOR*vidHeight, vidWidth, (1-TITLE_MARGIN_FACTOR)*vidHeight);
 
     fill(0);

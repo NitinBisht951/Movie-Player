@@ -19,6 +19,10 @@ final static int NO_OF_ROWS = 3;
 final static int NO_OF_COLS = 3;
 final static int NO_OF_VIDS = NO_OF_ROWS*NO_OF_COLS;
 
+final static color BACKGROUND_COLOR = #1D0339;
+final static color VIDEODISPLAYER_COLOR = #7722D3;   //#7722D3  #0A08FF
+final static color VIDEODISPLAYER_STROKE_COLOR = #FFFFFF;
+
 //different viewing modes of videoBars in Canvas
 final static boolean GRID_VIEW = true;
 final static boolean SINGLE_VIEW = false;

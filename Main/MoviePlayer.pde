@@ -16,7 +16,7 @@ class MoviePlayer {
   }
 
   void start() {
-    background(0);
+    background(BACKGROUND_COLOR);
     if (canvas.isActive()) {
       canvas.show();
     } else if (player.isActive()) {
@@ -46,5 +46,6 @@ class MoviePlayer {
 
   void mouseMoved() {
     if (player.isActive()) player.mouseMoved();
+    else if(canvas.isActive()) canvas.mouseMoved();
   }
 }

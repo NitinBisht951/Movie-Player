@@ -47,6 +47,7 @@ class Player extends Activeness {
       movie.stop();
     }
     resetSettings();
+    
     this.moviePath = moviePath;
     this.movieName = getNameFromPath(moviePath);
     movie = new Movie(mySketch, moviePath);
