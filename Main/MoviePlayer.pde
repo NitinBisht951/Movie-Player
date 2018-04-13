@@ -40,8 +40,6 @@ class MoviePlayer {
   }
 
   void keyPressed() {
-    //if(key == 'p') initActivity('p');
-    //else
     if (canvas.isActive()) canvas.keyPressed();
     else if (player.isActive()) player.keyPressed();
   }
