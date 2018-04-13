@@ -83,7 +83,7 @@ void openNewMovie(String newMoviePath) {
     pathLists.append(newMoviePath);
     saveData(pathTextFile, newMoviePath, true);
   }
-  mov.canvas.updateVideoDisplayer();
+  mov.canvas.update();
   mov.player.updateMovie(newMoviePath);
   mov.initActivity('p');
 }
