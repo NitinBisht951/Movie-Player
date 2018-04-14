@@ -46,7 +46,7 @@ class VideoDisplayer {
     //text(str(isEmpty), text_X, text_Y-20);
 
     //places the play button at the center of the VideoBar
-    playButton.draw(corner.x+vidWidth/2-20, corner.y+vidHeight/2-25);
+    playButton.draw(corner.x+vidWidth/2, corner.y+vidHeight/2-10);
   }
 
   void changeVideo(String path) {

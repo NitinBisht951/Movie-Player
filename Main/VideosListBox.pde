@@ -75,7 +75,6 @@ class VideosListBox {
     }
   }
 
-
   int getVideoIndexMouseIsOver() {
     int r = 0;
     int c = 0;

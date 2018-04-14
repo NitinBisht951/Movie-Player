@@ -1,24 +1,24 @@
 class Button {
   PImage buttonImg;
-  PVector topleft;
-  PVector bottomright;
+  PVector center;
 
   Button(String imgName) {
     buttonImg = loadImage(imgName);
   }
 
-  void draw(float marginX, float marginY) {
-    image(buttonImg, marginX, marginY);
-    topleft = new PVector(marginX, marginY);
-    bottomright = new PVector(marginX+buttonImg.width, marginY+buttonImg.height);
+  void draw(float centerX, float centerY) {
+    center = new PVector(centerX, centerY);
+    imageMode(CENTER);
+    image(buttonImg, centerX, centerY);
+    imageMode(CORNER);              //default
   }
 
-  void draw(float marginX, float marginY, int bgcolor) {
+  void draw(float centerX, float centerY, int bgcolor) {
     fill(bgcolor);
-    rect(marginX, marginY, buttonImg.width, buttonImg.height);
-    image(buttonImg, marginX, marginY);
-    topleft = new PVector(marginX, marginY);
-    bottomright = new PVector(marginX+buttonImg.width, marginY+buttonImg.height);
+    rectMode(CENTER);
+    rect(centerX, centerY, buttonImg.width, buttonImg.height);
+    rectMode(CORNER);
+    draw(centerX, centerY);
   }
 
   void changeImg(String imgName) {
@@ -34,7 +34,7 @@ class Button {
   }
 
   boolean isClicked() {
-    if ((mouseY < bottomright.y)&&(mouseY > topleft.y)&&(mouseX < bottomright.x)&&(mouseX > topleft.x)) 
+    if ((mouseY < center.y+buttonImg.height/2)&&(mouseY > center.y-buttonImg.height/2)&&(mouseX < center.x+buttonImg.width/2)&&(mouseX > center.x-buttonImg.width/2)) 
       return true;
     else return false;
   }
