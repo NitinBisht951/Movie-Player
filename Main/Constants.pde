@@ -46,8 +46,8 @@ final static char SPACE = ' ';
 //For button
 final static String OPEN_BUTTON = "open_button.png";
 
-final static String FOLDER_OPEN_SMALL = "folder_open_small.png";
-final static String FOLDER_OPEN_MEDIUM = "folder_open_medium.png";
+final static String FOLDER_WHITE_SMALL = "folder_white_small.png";
+final static String FOLDER_WHITE_MEDIUM = "folder_white_medium.png";
 final static String FOLDER_BLACK_SMALL = "folder_black_small.png";
 final static String FOLDER_BLACK_MEDIUM = "folder_black_medium.png";
 
@@ -60,6 +60,7 @@ final static String PLAY_BLACK_MEDIUM = "play_black_medium.png";
 final static String CLOSE_SMALL = "close_small.png";
 final static String CLOSE_MEDIUM = "close_medium.png";
 final static String CLOSE_LARGE = "close_large.png";
+final static String CLOSE_CIRCLE_SMALL = "close_circle_small.png";
 
 final static String PAUSE_SMALL = "pause_small.png";
 final static String PAUSE_MEDIUM = "pause_medium.png";

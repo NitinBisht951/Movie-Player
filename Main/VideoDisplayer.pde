@@ -1,17 +1,17 @@
 class VideoDisplayer {
-  String title;
-  String path;
+  private String title;
+  private String path;
 
   //coordinates of corner and height and width
-  PVector corner;
-  float vidWidth = GRID_VID_WIDTH;
-  float vidHeight = GRID_VID_HEIGHT;
+  private PVector corner;
+  private float vidWidth = GRID_VID_WIDTH;
+  private float vidHeight = GRID_VID_HEIGHT;
 
-  Button playButton;
-  Button previewButton;
-  Button removeButton;
+  private Button playButton;
+  private Button previewButton;
+  private Button removeButton;
 
-  boolean isEmpty;                        //keeps track of the history
+  private boolean isEmpty;                        //keeps track of the history
 
   //constructors
   VideoDisplayer(String title, String path, PVector corner) {
@@ -39,11 +39,9 @@ class VideoDisplayer {
 
     fill(0);
     textSize(60*vidHeight/DISPLAY_HEIGHT);
-    float text_X = corner.x + CANVAS_MARGIN*0.3;
-    float text_Y = corner.y + vidHeight*0.96;
-
-    text(title, text_X, text_Y);
-    //text(str(isEmpty), text_X, text_Y-20);
+    float text_X = corner.x + CANVAS_MARGIN*0.25;
+    float text_Y = corner.y + vidHeight*0.87;
+    text(title, text_X, text_Y, vidWidth*0.97, vidHeight*0.1);
 
     //places the play button at the center of the VideoBar
     playButton.draw(corner.x+vidWidth/2, corner.y+vidHeight/2-10);

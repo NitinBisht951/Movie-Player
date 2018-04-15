@@ -1,30 +1,29 @@
-//This class is for the first screen activity of the MoviePlayer
+//This class is for the first screen of the MoviePlayer
 //It gives option to open a new movie
 //It uses two small Bar : VideoBox and InfoBar
 //VideoBox displays different recently played videos as history
 //InfoBox displays the information about the video in focus, if there is one
 
 class Canvas extends Activeness {
-  VideosListBox vidBox;
+  private VideosListBox vidBox;
 
   //buttons
-  Button openVideoButton;
-  Button closeButton;
+  private Button openVideoButton;
+  private Button closeButton;
 
   //constructor
   Canvas() {
     vidBox = new VideosListBox();
-
     //buttons
-    openVideoButton = new Button(FOLDER_OPEN_SMALL);
-    closeButton = new Button(CLOSE_SMALL);
+    openVideoButton = new Button(FOLDER_WHITE_SMALL);
+    closeButton = new Button(CLOSE_CIRCLE_SMALL);
   }
 
   void show() {
     //show open video button at the topleft corner
-    openVideoButton.draw(CANVAS_LEFT_MARGIN, CANVAS_LEFT_MARGIN, 255);
+    openVideoButton.draw(CANVAS_LEFT_MARGIN+openVideoButton.getWidth()/2, CANVAS_LEFT_MARGIN+openVideoButton.getHeight()/2,255);
     //show close button at the topright corner
-    closeButton.draw(DISPLAY_WIDTH-closeButton.getWidth(), 0, 255);
+    closeButton.draw(DISPLAY_WIDTH-closeButton.getWidth()/2, closeButton.getHeight()/2);
 
     //show video list Box
     vidBox.draw();

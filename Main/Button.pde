@@ -1,6 +1,6 @@
 class Button {
-  PImage buttonImg;
-  PVector center;
+  private PImage buttonImg;
+  private PVector center;
 
   Button(String imgName) {
     buttonImg = loadImage(imgName);

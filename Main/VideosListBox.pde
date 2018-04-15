@@ -1,7 +1,7 @@
 //this class is a holder for videos showcasing
 class VideosListBox {
-  VideoDisplayer[] videos = new VideoDisplayer[NO_OF_VIDS];
-  int activeVideoIndex = 0;
+  private VideoDisplayer[] videos = new VideoDisplayer[NO_OF_VIDS];
+  private int activeVideoIndex = 0;
 
   VideosListBox() {
     for (int i = 0; i < NO_OF_VIDS; i++) {

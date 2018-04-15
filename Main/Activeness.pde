@@ -1,7 +1,7 @@
 // This class provides the activeness of a window and provides enabling
 //  and disabling the window
 class Activeness {
-  boolean isActive = false;
+  protected boolean isActive = false;
 
   void enable() {
     isActive = true;

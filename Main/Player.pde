@@ -1,32 +1,29 @@
 class Player extends Activeness {
 
-  Movie movie;                          // movie to be played
-  String moviePath;                     // movie absolute path
-  String movieName;
+  private Movie movie;                          // movie to be played
+  private String movieName;
 
-  boolean isFullScreen;                 //to check whether the video is currently fullscreen or not
-  boolean isPaused;                     //to check whether the video is currently paused or not
-  String durationString;                //to save duration of the video in hh:mm:ss form
+  private boolean isFullScreen;                 //to check whether the video is currently fullscreen or not
+  private boolean isPaused;                     //to check whether the video is currently paused or not
+  private String durationString;                //to save duration of the video in hh:mm:ss form
 
-  float speed;                          //to control the speed of the movie
-  PImage tempImg;                       //used to show small images in between
+  private float speed;                          //to control the speed of the movie
+  private PImage tempImg;                       //used to show small images in between
 
-  int showBarCount;                     //for how long the time bar should be active after the mouse is moved
-  int lastSnapshotIndex;
-  int currentSnapshotIndex;
-  float snapshotGap;
-  boolean begun;                        // to start the movie
+  private int showBarCount;                     //for how long the time bar should be active after the mouse is moved
+  private int lastSnapshotIndex;
+  private int currentSnapshotIndex;
+  private float snapshotGap;
+  private boolean begun;                        // to start the movie
 
-  float  duration;
+  private float  duration;
 
   Player() {
     resetSettings();
-    this.moviePath = null;
     this.movieName = null;
   }
 
   void resetSettings() {
-    moviePath = null;
     begun = false;
     speed = 1.0;
     showBarCount = 0;
@@ -47,8 +44,7 @@ class Player extends Activeness {
       movie.stop();
     }
     resetSettings();
-    
-    this.moviePath = moviePath;
+
     this.movieName = getNameFromPath(moviePath);
     movie = new Movie(mySketch, moviePath);
   }
@@ -56,10 +52,11 @@ class Player extends Activeness {
   void begin() {
     // start the movie and initialize the durationString
     if (begun == false) {
+      //wait while movie is not initialized
       while (movie == null);
-      println("begun");
-      if (isActive)  movie.loop();
-      if(movie.duration() > 1)
+      println("--------- Movie Started --------");
+      movie.loop();
+      if (movie.duration() > 1)
         duration = movie.duration();
       durationString = formatTime(int(duration));
       snapshotGap = duration/NO_OF_SNAPSHOTS;
@@ -192,7 +189,6 @@ class Player extends Activeness {
       isFullScreen = !isFullScreen;
     } else if (key == BACKSPACE) {
       movie.stop();
-
       mov.initActivity('c');
     }
   }
@@ -212,6 +208,7 @@ class Player extends Activeness {
       movie.read();
     }
     tempImg.copy(movie, 0, 0, movie.width, movie.height, 0, 0, tempImg.width, tempImg.height);
+    tempImg.updatePixels();
     movie.jump(pTime);
   }
 

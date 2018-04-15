@@ -2,12 +2,8 @@
 // encompasses the other two small activities Canvas and Player
 
 class MoviePlayer {
-  Canvas canvas;                      //the first open video activity
-  Player player;                      // the video playing video
-
-  String[] movienames;
-  Movie[] movies = new Movie[NO_OF_VIDS];
-  Movie tempMovie;
+  private Canvas canvas;                      //the first open video activity
+  private Player player;                      //the video playing activity
 
   MoviePlayer() {
     player = new Player();
