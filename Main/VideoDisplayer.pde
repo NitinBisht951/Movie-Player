@@ -18,7 +18,7 @@ class VideoDisplayer {
     this.title = title;
     this.path = path;
     this.corner = corner;
-    this.playButton = new Button(PLAY_BLACK_SMALL);
+    this.playButton = new Button(PLAY_CIRCLE_MEDIUM);
     isEmpty = true;
   }
 
@@ -30,6 +30,7 @@ class VideoDisplayer {
   }
 
   void draw() {
+    
     // draw image in place of rect
     fill(VIDEODISPLAYER_COLOR);
     rect(corner.x, corner.y, vidWidth, vidHeight);

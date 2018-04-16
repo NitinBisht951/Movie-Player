@@ -43,7 +43,7 @@ class VideosListBox {
       if (videos[i].isEmpty()) return;
       if (videos[i].mouseClicked()) {
         //activeVideoIndex = i;
-        openMovieAtIndex(i);
+        openVideoAtIndex(i);
       }
     }
   }
@@ -61,11 +61,11 @@ class VideosListBox {
       }
     } else if (key == ENTER) {
       if (videos[activeVideoIndex].isEmpty())  return;
-      openMovieAtIndex(activeVideoIndex);
+      openVideoAtIndex(activeVideoIndex);
     }
   }
 
-  void openMovieAtIndex(int index) {
+  void openVideoAtIndex(int index) {
     String pathToVideo = videos[index].getPath();
     if (new File(dataPath(pathToVideo)).exists()) {
       println(dataPath(pathToVideo)+" is still there");
@@ -78,21 +78,17 @@ class VideosListBox {
   int getVideoIndexMouseIsOver() {
     int r = 0;
     int c = 0;
-    for (; r < NO_OF_ROWS; r++) {
-      boolean isInRowZone = (mouseY > CANVAS_TOP_MARGIN + r*(GRID_VID_HEIGHT + CANVAS_MARGIN))
-        &&(mouseY < CANVAS_TOP_MARGIN + r*(GRID_VID_HEIGHT + CANVAS_MARGIN)+GRID_VID_HEIGHT);
-      if (isInRowZone) break;
-    }  
+    for (; r < NO_OF_ROWS; r++) 
+      if ((mouseY > CANVAS_TOP_MARGIN + r*(GRID_VID_HEIGHT + CANVAS_MARGIN))&&(mouseY < CANVAS_TOP_MARGIN + r*(GRID_VID_HEIGHT + CANVAS_MARGIN)+GRID_VID_HEIGHT)) 
+        break; 
 
-    for (; c < NO_OF_COLS; c++) {
-      boolean isInColZone = (mouseX > CANVAS_LEFT_MARGIN + c*(GRID_VID_WIDTH + CANVAS_MARGIN))
-        &&(mouseX < CANVAS_LEFT_MARGIN + c*(GRID_VID_WIDTH + CANVAS_MARGIN)+GRID_VID_WIDTH);
-      if (isInColZone) break;
-    }
+    for (; c < NO_OF_COLS; c++) 
+      if ((mouseX > CANVAS_LEFT_MARGIN + c*(GRID_VID_WIDTH + CANVAS_MARGIN))&&(mouseX < CANVAS_LEFT_MARGIN + c*(GRID_VID_WIDTH + CANVAS_MARGIN)+GRID_VID_WIDTH))
+        break;
 
-    int i = (r*NO_OF_ROWS+c);
-    if (r >= NO_OF_ROWS || c >= NO_OF_COLS) i = activeVideoIndex;
-    //println("row : ", r, ", col : ", c, ", index : ", i);
+    int i = (r * NO_OF_ROWS + c);
+    if (r >= NO_OF_ROWS || c >= NO_OF_COLS) 
+      i = activeVideoIndex;
     return i;
   }
 }

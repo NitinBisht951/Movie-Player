@@ -15,7 +15,7 @@ class Canvas extends Activeness {
   Canvas() {
     vidBox = new VideosListBox();
     //buttons
-    openVideoButton = new Button(FOLDER_WHITE_SMALL);
+    openVideoButton = new Button(OPEN_BUTTON);
     closeButton = new Button(CLOSE_CIRCLE_SMALL);
   }
 
@@ -49,6 +49,7 @@ class Canvas extends Activeness {
 
   void mouseClicked() {
     if (openVideoButton.isClicked()) {
+      //opens a thread to get the path of the video opened
       selectInput("Select a video to open:", "fileSelected");
     } else if (closeButton.isClicked()) {
       exit();

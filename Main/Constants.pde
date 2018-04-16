@@ -56,6 +56,8 @@ final static String PLAY_MEDIUM = "play_medium.png";
 final static String PLAY_LARGE = "play_large.png";
 final static String PLAY_BLACK_SMALL = "play_black_small.png";
 final static String PLAY_BLACK_MEDIUM = "play_black_medium.png";
+final static String PLAY_CIRCLE_SMALL = "play_circle_small.png";
+final static String PLAY_CIRCLE_MEDIUM = "play_circle_medium.png";
 
 final static String CLOSE_SMALL = "close_small.png";
 final static String CLOSE_MEDIUM = "close_medium.png";
