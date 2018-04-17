@@ -3,12 +3,12 @@ class VideosListBox {
   private VideoDisplayer[] videos = new VideoDisplayer[NO_OF_VIDS];
   private int activeVideoIndex = 0;
 
-  VideosListBox() {
+  VideosListBox(float offsetX, float offsetY) {
     for (int i = 0; i < NO_OF_VIDS; i++) {
-      int col = i % NO_OF_ROWS;
+      int col = i % NO_OF_COLS;
       int row = (i - col)/NO_OF_ROWS;
-      float x = CANVAS_LEFT_MARGIN + col*(GRID_VID_WIDTH + CANVAS_MARGIN);
-      float y = CANVAS_TOP_MARGIN + row*(GRID_VID_HEIGHT + CANVAS_MARGIN);
+      float x = offsetX + col*(VID_DISPLAYER_WIDTH + CANVAS_MARGIN);
+      float y = offsetY + row*(VID_DISPLAYER_HEIGHT + CANVAS_MARGIN);
       videos[i] = new VideoDisplayer("Title"+i, "Path", new PVector(x, y));
     }
     update();
@@ -42,7 +42,6 @@ class VideosListBox {
     for (int i = 0; i < NO_OF_VIDS; i++) {
       if (videos[i].isEmpty()) return;
       if (videos[i].mouseClicked()) {
-        //activeVideoIndex = i;
         openVideoAtIndex(i);
       }
     }
@@ -76,19 +75,11 @@ class VideosListBox {
   }
 
   int getVideoIndexMouseIsOver() {
-    int r = 0;
-    int c = 0;
-    for (; r < NO_OF_ROWS; r++) 
-      if ((mouseY > CANVAS_TOP_MARGIN + r*(GRID_VID_HEIGHT + CANVAS_MARGIN))&&(mouseY < CANVAS_TOP_MARGIN + r*(GRID_VID_HEIGHT + CANVAS_MARGIN)+GRID_VID_HEIGHT)) 
-        break; 
-
-    for (; c < NO_OF_COLS; c++) 
-      if ((mouseX > CANVAS_LEFT_MARGIN + c*(GRID_VID_WIDTH + CANVAS_MARGIN))&&(mouseX < CANVAS_LEFT_MARGIN + c*(GRID_VID_WIDTH + CANVAS_MARGIN)+GRID_VID_WIDTH))
-        break;
-
-    int i = (r * NO_OF_ROWS + c);
-    if (r >= NO_OF_ROWS || c >= NO_OF_COLS) 
-      i = activeVideoIndex;
-    return i;
+    for (int i = 0; i< NO_OF_VIDS; i++) {
+      if (videos[i].isMouseOver()) {
+        return i;
+      }
+    }
+    return activeVideoIndex;
   }
 }

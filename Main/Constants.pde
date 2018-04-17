@@ -3,21 +3,23 @@ final static float DISPLAY_WIDTH = 1366;
 final static float DISPLAY_HEIGHT = 768;
 final static float CANVAS_MARGIN = 25;
 
-final static float VIDEO_BAR_RATIO = 2.0/3;              //2.0 not 2
-final static float VIDEO_BAR_WIDTH = VIDEO_BAR_RATIO * DISPLAY_WIDTH;
-final static float GRID_VID_WIDTH = (VIDEO_BAR_WIDTH - 6*CANVAS_MARGIN)/3;
-final static float GRID_VID_HEIGHT = (DISPLAY_HEIGHT - 11*CANVAS_MARGIN)/3;
+final static int NO_OF_ROWS = 3;
+final static int NO_OF_COLS = 3;
+final static int NO_OF_VIDS = NO_OF_ROWS*NO_OF_COLS;
+
 final static float CANVAS_LEFT_MARGIN = 2*CANVAS_MARGIN;
 final static float CANVAS_TOP_MARGIN = 7*CANVAS_MARGIN;
+
+final static float VID_LIST_BOX_FACTOR = 2.0/3;              
+final static float VID_LIST_BOX_WIDTH = VID_LIST_BOX_FACTOR * DISPLAY_WIDTH;
+final static float VID_DISPLAYER_WIDTH = (VID_LIST_BOX_WIDTH - 6*CANVAS_MARGIN)/NO_OF_COLS;
+final static float VID_DISPLAYER_HEIGHT = (DISPLAY_HEIGHT - 11*CANVAS_MARGIN)/NO_OF_ROWS;
 
 final static float TITLE_MARGIN_FACTOR = 0.85;
 
 final static float LIGHT_WEIGHT = 3;
 final static float HEAVY_WEIGHT = 5;
 
-final static int NO_OF_ROWS = 3;
-final static int NO_OF_COLS = 3;
-final static int NO_OF_VIDS = NO_OF_ROWS*NO_OF_COLS;
 
 final static color BACKGROUND_COLOR = #1D0339;
 final static color VIDEODISPLAYER_COLOR = #7722D3;   //#7722D3  #0A08FF

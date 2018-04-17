@@ -13,7 +13,7 @@ class Canvas extends Activeness {
 
   //constructor
   Canvas() {
-    vidBox = new VideosListBox();
+    vidBox = new VideosListBox(CANVAS_LEFT_MARGIN,CANVAS_TOP_MARGIN);
     //buttons
     openVideoButton = new Button(OPEN_BUTTON);
     closeButton = new Button(CLOSE_CIRCLE_SMALL);
@@ -31,9 +31,9 @@ class Canvas extends Activeness {
     stroke(255);
     strokeWeight(2);
     //line separation between open button and VideoBar
-    line(CANVAS_LEFT_MARGIN, 5*CANVAS_MARGIN, VIDEO_BAR_WIDTH - CANVAS_LEFT_MARGIN, 5*CANVAS_MARGIN);
+    line(CANVAS_LEFT_MARGIN, 5*CANVAS_MARGIN, VID_LIST_BOX_WIDTH - CANVAS_LEFT_MARGIN, 5*CANVAS_MARGIN);
     //line separation between VideoBar and InfoBar
-    line(VIDEO_BAR_WIDTH, CANVAS_MARGIN, VIDEO_BAR_WIDTH, DISPLAY_HEIGHT - CANVAS_MARGIN);
+    line(VID_LIST_BOX_WIDTH, CANVAS_MARGIN, VID_LIST_BOX_WIDTH, DISPLAY_HEIGHT - CANVAS_MARGIN);
 
     //show info about the active video
     // drawInfoBar();

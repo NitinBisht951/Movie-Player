@@ -4,8 +4,8 @@ class VideoDisplayer {
 
   //coordinates of corner and height and width
   private PVector corner;
-  private float vidWidth = GRID_VID_WIDTH;
-  private float vidHeight = GRID_VID_HEIGHT;
+  private float vidWidth = VID_DISPLAYER_WIDTH;
+  private float vidHeight = VID_DISPLAYER_HEIGHT;
 
   private Button playButton;
   private Button previewButton;
@@ -30,7 +30,7 @@ class VideoDisplayer {
   }
 
   void draw() {
-    
+
     // draw image in place of rect
     fill(VIDEODISPLAYER_COLOR);
     rect(corner.x, corner.y, vidWidth, vidHeight);
@@ -53,16 +53,23 @@ class VideoDisplayer {
     this.title = getNameFromPath(path);
     this.isEmpty = false;
   }
-  
+
   String getPath() {
-    if(isEmpty) return null;
+    if (isEmpty) return null;
     else return path;
   }
 
   boolean isEmpty() {
     return isEmpty;
   }
- 
+  
+  boolean isMouseOver() {
+    if (mouseX > corner.x && mouseY > corner.y && (mouseX < corner.x + vidWidth) && (mouseY < corner.y + vidHeight)) {
+      return true;
+    } else return false;
+  }
+
+
   boolean mouseClicked() {
     if (playButton.isClicked()) {
       //play that video
