@@ -9,7 +9,7 @@ class Preview {
   }
 
   void draw() {
-    activeVideo.draw();
+    //activeVideo.draw();
   }
 
 }

@@ -5,7 +5,7 @@ final static float CANVAS_MARGIN = 25;
 
 final static int NO_OF_ROWS = 3;
 final static int NO_OF_COLS = 3;
-final static int NO_OF_VIDS = NO_OF_ROWS*NO_OF_COLS;
+final static int NO_OF_VIDS = NO_OF_ROWS * NO_OF_COLS;
 
 final static float CANVAS_LEFT_MARGIN = 2*CANVAS_MARGIN;
 final static float CANVAS_TOP_MARGIN = 7*CANVAS_MARGIN;
@@ -20,9 +20,8 @@ final static float TITLE_MARGIN_FACTOR = 0.85;
 final static float LIGHT_WEIGHT = 3;
 final static float HEAVY_WEIGHT = 5;
 
-
-final static color BACKGROUND_COLOR = #1D0339;
-final static color VIDEODISPLAYER_COLOR = #7722D3;   //#7722D3  #0A08FF
+final static color BACKGROUND_COLOR = #4B4B4B;                    //#4B4B4B; //#11D612; //#1D0339;
+final static color VIDEODISPLAYER_COLOR = #0EC66F;                 //#7722D3  #0BE37C  #0A08FF  0EC66F
 final static color VIDEODISPLAYER_STROKE_COLOR = #FFFFFF;
 
 //different viewing modes of videoBars in Canvas
@@ -47,6 +46,7 @@ final static char SPACE = ' ';
 
 //For button
 final static String OPEN_BUTTON = "open_button.png";
+final static String REMOVE_BUTTON = "remove_button.png";
 
 final static String FOLDER_WHITE_SMALL = "folder_white_small.png";
 final static String FOLDER_WHITE_MEDIUM = "folder_white_medium.png";

@@ -1,6 +1,7 @@
 class VideoDisplayer {
   private String title;
   private String path;
+  private PImage poster;
 
   //coordinates of corner and height and width
   private PVector corner;
@@ -19,6 +20,7 @@ class VideoDisplayer {
     this.path = path;
     this.corner = corner;
     this.playButton = new Button(PLAY_CIRCLE_MEDIUM);
+    this.removeButton = new Button(REMOVE_BUTTON);
     isEmpty = true;
   }
 
@@ -29,14 +31,26 @@ class VideoDisplayer {
     this.playButton.changeImg(PLAY_BLACK_MEDIUM);
   }
 
-  void draw() {
+  void draw(boolean isActive) {
+    final float RADII = 4;
+    noStroke();
+    fill(0, 50);
+
+    if (isActive) {
+      //draw shadow of the rect
+      rect(corner.x+RADII, corner.y+RADII, vidWidth, vidHeight, RADII);
+      stroke(VIDEODISPLAYER_STROKE_COLOR);
+      strokeWeight(LIGHT_WEIGHT);
+    } else {
+      rect(corner.x+RADII, corner.y+RADII, vidWidth-RADII/2, vidHeight-RADII/2, RADII);
+    }
 
     // draw image in place of rect
     fill(VIDEODISPLAYER_COLOR);
-    rect(corner.x, corner.y, vidWidth, vidHeight);
+    rect(corner.x, corner.y, vidWidth, vidHeight, RADII);
 
     fill(VIDEODISPLAYER_STROKE_COLOR);
-    rect(corner.x, corner.y+TITLE_MARGIN_FACTOR*vidHeight, vidWidth, (1-TITLE_MARGIN_FACTOR)*vidHeight);
+    rect(corner.x, corner.y+TITLE_MARGIN_FACTOR*vidHeight, vidWidth, (1-TITLE_MARGIN_FACTOR)*vidHeight, 0, 0, RADII, RADII);
 
     fill(0);
     textSize(60*vidHeight/DISPLAY_HEIGHT);
@@ -46,12 +60,14 @@ class VideoDisplayer {
 
     //places the play button at the center of the VideoBar
     playButton.draw(corner.x+vidWidth/2, corner.y+vidHeight/2-10);
+    //removeButton.draw(corner.x+vidWidth-removeButton.getWidth()/2-8,corner.y+removeButton.getHeight()/2+8);
   }
 
   void changeVideo(String path) {
     this.path = path;
     this.title = getNameFromPath(path);
     this.isEmpty = false;
+    
   }
 
   String getPath() {
@@ -62,13 +78,12 @@ class VideoDisplayer {
   boolean isEmpty() {
     return isEmpty;
   }
-  
+
   boolean isMouseOver() {
     if (mouseX > corner.x && mouseY > corner.y && (mouseX < corner.x + vidWidth) && (mouseY < corner.y + vidHeight)) {
       return true;
     } else return false;
   }
-
 
   boolean mouseClicked() {
     if (playButton.isClicked()) {

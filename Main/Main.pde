@@ -1,4 +1,6 @@
-//Donot play 1080 and mkv
+// A Simple Movie Player
+// Do not try to play 1080p and mkv videos
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import processing.video.*;
@@ -61,13 +63,13 @@ void openNewMovie(String newMoviePath) {
     pathLists.append(newMoviePath);
     saveData(pathTextFile, newMoviePath, true);
   }
-  mov.canvas.update();
-  mov.player.updateMovie(newMoviePath);
+  mov.canvasUpdate();
+  mov.playerUpdateMovie(this,newMoviePath);
   mov.initActivity('p');
 }
 
 /* --------------------------------------------------------------
- checks whether the path text file exists or not, if not, 
+ checks whether the path text file exists or not, if not,
  then create one with the given name
  filePath = path of the text file
  --------------------------------------------------------------
@@ -77,7 +79,7 @@ void openNewMovie(String newMoviePath) {
     println(dataPath(filePath));
   } else {
     createWriter(filePath);
-  } 
+  }
 }
 
 /* --------------------------------------------------------------

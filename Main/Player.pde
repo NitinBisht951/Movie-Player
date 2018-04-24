@@ -36,17 +36,12 @@ class Player extends Activeness {
     tempImg = createImage(144, 80, RGB);
   }
 
-  void updateMovie(String moviePath) {
-    println("updateMovie");
-    //if there is still previous movie present, stop it first
-    if (movie != null) {
-      println("stopped");
-      movie.stop();
-    }
+  void updateMovie(PApplet sketch, String moviePath) {
+    //println("updateMovie");
     resetSettings();
 
     this.movieName = getNameFromPath(moviePath);
-    movie = new Movie(mySketch, moviePath);
+    movie = new Movie(sketch, moviePath);
   }
 
   void begin() {
@@ -54,7 +49,7 @@ class Player extends Activeness {
     if (begun == false) {
       //wait while movie is not initialized
       while (movie == null);
-      println("--------- Movie Started --------");
+      println("--------- Movie Started ---------");
       movie.loop();
       if (movie.duration() > 1)
         duration = movie.duration();
@@ -188,6 +183,7 @@ class Player extends Activeness {
     } else if (key == 'f') {
       isFullScreen = !isFullScreen;
     } else if (key == BACKSPACE) {
+      println("--------- Movie Stopped ---------\n");
       movie.stop();
       mov.initActivity('c');
     }

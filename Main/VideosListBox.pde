@@ -1,6 +1,6 @@
-//this class is a holder for videos showcasing
+//this class is a holder for videoDisplayer showcasing
 class VideosListBox {
-  private VideoDisplayer[] videos = new VideoDisplayer[NO_OF_VIDS];
+  private VideoDisplayer[] videoDisplayer = new VideoDisplayer[NO_OF_VIDS];
   private int activeVideoIndex = 0;
 
   VideosListBox(float offsetX, float offsetY) {
@@ -9,20 +9,15 @@ class VideosListBox {
       int row = (i - col)/NO_OF_ROWS;
       float x = offsetX + col*(VID_DISPLAYER_WIDTH + CANVAS_MARGIN);
       float y = offsetY + row*(VID_DISPLAYER_HEIGHT + CANVAS_MARGIN);
-      videos[i] = new VideoDisplayer("Title"+i, "Path", new PVector(x, y));
+      videoDisplayer[i] = new VideoDisplayer("Title"+i, "Path", new PVector(x, y));
     }
     update();
   }
 
   void draw() {
     for (int i = 0; i < NO_OF_VIDS; i++) {
-      if (activeVideoIndex == i) {
-        stroke(VIDEODISPLAYER_STROKE_COLOR);
-        strokeWeight(LIGHT_WEIGHT);
-      } else {
-        noStroke();
-      }
-      videos[i].draw();
+      boolean isActive = (activeVideoIndex==i);
+      videoDisplayer[i].draw(isActive);
     }
   }
 
@@ -30,7 +25,7 @@ class VideosListBox {
     int tempSize = pathLists.size();
     for (int i = 0; i < NO_OF_VIDS; i++) {
       if (i == tempSize) return;
-      videos[i].changeVideo(pathLists.get(tempSize-i-1));
+      videoDisplayer[i].changeVideo(pathLists.get(tempSize-i-1));
     }
   }
 
@@ -40,8 +35,8 @@ class VideosListBox {
 
   void mouseClicked() {
     for (int i = 0; i < NO_OF_VIDS; i++) {
-      if (videos[i].isEmpty()) return;
-      if (videos[i].mouseClicked()) {
+      if (videoDisplayer[i].isEmpty()) return;
+      if (videoDisplayer[i].mouseClicked()) {
         openVideoAtIndex(i);
       }
     }
@@ -59,13 +54,13 @@ class VideosListBox {
         activeVideoIndex = (activeVideoIndex < NO_OF_VIDS-NO_OF_COLS)?(activeVideoIndex+NO_OF_COLS):(NO_OF_COLS-NO_OF_VIDS+activeVideoIndex);
       }
     } else if (key == ENTER) {
-      if (videos[activeVideoIndex].isEmpty())  return;
+      if (videoDisplayer[activeVideoIndex].isEmpty())  return;
       openVideoAtIndex(activeVideoIndex);
     }
   }
 
   void openVideoAtIndex(int index) {
-    String pathToVideo = videos[index].getPath();
+    String pathToVideo = videoDisplayer[index].getPath();
     if (new File(dataPath(pathToVideo)).exists()) {
       println(dataPath(pathToVideo)+" is still there");
       openNewMovie(pathToVideo);
@@ -76,7 +71,7 @@ class VideosListBox {
 
   int getVideoIndexMouseIsOver() {
     for (int i = 0; i< NO_OF_VIDS; i++) {
-      if (videos[i].isMouseOver()) {
+      if (videoDisplayer[i].isMouseOver()) {
         return i;
       }
     }

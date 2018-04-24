@@ -21,9 +21,9 @@ class Canvas extends Activeness {
 
   void show() {
     //show open video button at the topleft corner
-    openVideoButton.draw(CANVAS_LEFT_MARGIN+openVideoButton.getWidth()/2, CANVAS_LEFT_MARGIN+openVideoButton.getHeight()/2,255);
+    openVideoButton.draw(CANVAS_LEFT_MARGIN+openVideoButton.getWidth()/2, CANVAS_LEFT_MARGIN+openVideoButton.getHeight()/2);
     //show close button at the topright corner
-    closeButton.draw(DISPLAY_WIDTH-closeButton.getWidth()/2, closeButton.getHeight()/2);
+    closeButton.draw(DISPLAY_WIDTH-closeButton.getWidth()/2-8, closeButton.getHeight()/2+8);
 
     //show video list Box
     vidBox.draw();

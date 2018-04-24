@@ -20,6 +20,13 @@ class MoviePlayer {
     }
   }
 
+  void canvasUpdate() {
+    canvas.update();
+  }
+
+  void playerUpdateMovie(PApplet sketch, String moviePath) {
+    player.updateMovie(sketch, moviePath);
+  }
   void initActivity(char choice) {
     if (choice == 'c') {
       canvas.enable();
@@ -36,12 +43,13 @@ class MoviePlayer {
   }
 
   void keyPressed() {
-    if (canvas.isActive()) canvas.keyPressed();
+    if (key == 'y') saveFrame();
+    else if (canvas.isActive()) canvas.keyPressed();
     else if (player.isActive()) player.keyPressed();
   }
 
   void mouseMoved() {
     if (player.isActive()) player.mouseMoved();
-    else if(canvas.isActive()) canvas.mouseMoved();
+    else if (canvas.isActive()) canvas.mouseMoved();
   }
 }
