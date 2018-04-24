@@ -10,13 +10,14 @@ class Player extends Activeness {
   private float speed;                          //to control the speed of the movie
   private PImage tempImg;                       //used to show small images in between
 
+//miscellaneous fields
   private int showBarCount;                     //for how long the time bar should be active after the mouse is moved
   private int lastSnapshotIndex;
   private int currentSnapshotIndex;
   private float snapshotGap;
   private boolean begun;                        // to start the movie
 
-  private float  duration;
+  private float duration;
 
   Player() {
     resetSettings();

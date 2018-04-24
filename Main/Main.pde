@@ -64,7 +64,7 @@ void openNewMovie(String newMoviePath) {
     saveData(pathTextFile, newMoviePath, true);
   }
   mov.canvasUpdate();
-  mov.playerUpdateMovie(this,newMoviePath);
+  mov.playerUpdateMovie(this, newMoviePath);
   mov.initActivity('p');
 }
 
@@ -74,8 +74,8 @@ void openNewMovie(String newMoviePath) {
  filePath = path of the text file
  --------------------------------------------------------------
  */
- void checkFileExistence(String filePath) {
- if (new File(dataPath(filePath)).exists()) {
+void checkFileExistence(String filePath) {
+  if (new File(dataPath(filePath)).exists()) {
     println(dataPath(filePath));
   } else {
     createWriter(filePath);

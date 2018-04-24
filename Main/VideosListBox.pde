@@ -25,7 +25,7 @@ class VideosListBox {
     int tempSize = pathLists.size();
     for (int i = 0; i < NO_OF_VIDS; i++) {
       if (i == tempSize) return;
-      videoDisplayer[i].changeVideo(pathLists.get(tempSize-i-1));
+      videoDisplayer[i].updateVideo(pathLists.get(tempSize-i-1));
     }
   }
 

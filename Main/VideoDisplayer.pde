@@ -1,7 +1,7 @@
 class VideoDisplayer {
   private String title;
   private String path;
-  private PImage poster;
+  private PImage poster = null;
 
   //coordinates of corner and height and width
   private PVector corner;
@@ -63,11 +63,10 @@ class VideoDisplayer {
     //removeButton.draw(corner.x+vidWidth-removeButton.getWidth()/2-8,corner.y+removeButton.getHeight()/2+8);
   }
 
-  void changeVideo(String path) {
+  void updateVideo(String path) {
     this.path = path;
     this.title = getNameFromPath(path);
     this.isEmpty = false;
-    
   }
 
   String getPath() {
