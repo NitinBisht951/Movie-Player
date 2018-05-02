@@ -44,13 +44,34 @@ void mouseMoved() {
   mov.mouseMoved();
 }
 
-void fileSelected(File selection) {
+void movieSelected(File selection) {
   if (selection == null) {
     println("Window was closed or the user hit cancel.");
   } else {
     String newMoviePath = selection.getAbsolutePath();
-    println("\nUser selected " + selection.getName()+"\n");
-    openNewMovie(newMoviePath);
+    boolean validFormat = hasExtension(newMoviePath, ".mp4") || hasExtension(newMoviePath, ".webm") || hasExtension(newMoviePath, ".avi") 
+      || hasExtension(newMoviePath, ".mov") || hasExtension(newMoviePath, ".flv") || hasExtension(newMoviePath, ".wmv");
+    if (validFormat) {
+      println("\nUser selected " + selection.getName()+"\n");
+      openNewMovie(newMoviePath);
+    } else {
+      println("\nINVALID VIDEO FORMAT\n");
+    }
+  }
+}
+
+void subtitleSelected(File selection) {
+  if (selection == null) {
+    println("Window was closed or the user hit cancel.");
+  } else {
+    String subtitlePath = selection.getAbsolutePath();
+    boolean validFormat = hasExtension(subtitlePath, ".srt");
+    if (validFormat) {
+      println("\nUser selected " + selection.getName()+"\n");
+      mov.playerUpdateSubtitle(subtitlePath);
+    } else {
+      println("\nINVALID FORMAT\n");
+    }
   }
 }
 
@@ -171,4 +192,15 @@ String formatTime(int time) {
   int sec = (time - hour*3600 - min*60);
   stime = nf(hour, 2)+":"+nf(min, 2)+":"+nf(sec, 2);
   return stime;
+}
+
+boolean hasExtension(String name, String extension) {
+  name = name.toLowerCase();
+  extension = extension.toLowerCase();
+  if ((name.substring(name.length()-extension.length())).equals(extension)) return true;
+  else return false;
+}
+
+String removeExtension(String string) {
+  return string.substring(0, string.length()-4);
 }

@@ -15,4 +15,8 @@ class Activeness {
   boolean isActive() {
     return isActive;
   }
+  
+  void toggle() {
+    isActive = !isActive;
+  }
 }

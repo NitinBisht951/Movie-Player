@@ -27,6 +27,11 @@ class MoviePlayer {
   void playerUpdateMovie(PApplet sketch, String moviePath) {
     player.updateMovie(sketch, moviePath);
   }
+
+  void playerUpdateSubtitle(String subtitlePath) {
+    player.subtitle.change(subtitlePath);
+  }
+
   void initActivity(char choice) {
     if (choice == 'c') {
       canvas.enable();

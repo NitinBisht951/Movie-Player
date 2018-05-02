@@ -2,6 +2,7 @@ class Player extends Activeness {
 
   private Movie movie;                          // movie to be played
   private String movieName;
+  private String path;
 
   private boolean isFullScreen;                 //to check whether the video is currently fullscreen or not
   private boolean isPaused;                     //to check whether the video is currently paused or not
@@ -10,7 +11,7 @@ class Player extends Activeness {
   private float speed;                          //to control the speed of the movie
   private PImage tempImg;                       //used to show small images in between
 
-//miscellaneous fields
+  //miscellaneous fields
   private int showBarCount;                     //for how long the time bar should be active after the mouse is moved
   private int lastSnapshotIndex;
   private int currentSnapshotIndex;
@@ -18,6 +19,8 @@ class Player extends Activeness {
   private boolean begun;                        // to start the movie
 
   private float duration;
+  private boolean hasSubtitle;
+  private SubtitleReader subtitle;
 
   Player() {
     resetSettings();
@@ -35,14 +38,16 @@ class Player extends Activeness {
     snapshotGap = 0;
     duration = 100;
     tempImg = createImage(144, 80, RGB);
+    hasSubtitle = false;
   }
 
   void updateMovie(PApplet sketch, String moviePath) {
     //println("updateMovie");
     resetSettings();
-
-    this.movieName = getNameFromPath(moviePath);
+    this.path = moviePath;
+    this.movieName = removeExtension(getNameFromPath(moviePath));
     movie = new Movie(sketch, moviePath);
+    subtitleCheck(path);
   }
 
   void begin() {
@@ -67,6 +72,9 @@ class Player extends Activeness {
       image(movie, width/2, height/2);
       imageMode(CORNER);
     }
+    
+    //show subtitles
+    if(subtitle.isActive()) subtitle.show(movie.time());
 
     // to display the time bar and movie name
     if (showBarCount >= 0) {
@@ -124,7 +132,7 @@ class Player extends Activeness {
     fill(255);
     rect(2*PLAYER_MARGIN, height-1.75*PLAYER_MARGIN, width-4*PLAYER_MARGIN, 0.5*PLAYER_MARGIN, 3);
     stroke(255, 0, 0);
-    strokeWeight(7);
+    strokeWeight(8);
     strokeCap(SQUARE);
     line(2*PLAYER_MARGIN, height-1.5*PLAYER_MARGIN, 2*PLAYER_MARGIN+durLength, height-1.5*PLAYER_MARGIN);
     strokeCap(ROUND);                    //set back to default
@@ -132,15 +140,15 @@ class Player extends Activeness {
     stroke(0);
     strokeWeight(3);
 
-    float snapshotDistance = map(snapshotGap, 0, duration, 0, width-4*PLAYER_MARGIN);
-    for (int i = 0; i <NO_OF_SNAPSHOTS; i++)
-      point(i*snapshotDistance+2*PLAYER_MARGIN, height-1.5*PLAYER_MARGIN);
+    //float snapshotDistance = map(snapshotGap, 0, duration, 0, width-4*PLAYER_MARGIN);
+    //for (int i = 0; i <NO_OF_SNAPSHOTS; i++)
+    //  point(i*snapshotDistance+2*PLAYER_MARGIN, height-1.5*PLAYER_MARGIN);
   }
 
   void showMovieName() {
     textSize(40);                                          //settings for showing time and total length of movie
     textAlign(LEFT, TOP);
-    text(movieName, 1.4*PLAYER_MARGIN, 3.2*PLAYER_MARGIN);
+    text(movieName, 1.4*PLAYER_MARGIN, 2*PLAYER_MARGIN);
     textAlign(LEFT, BASELINE);
   }
 
@@ -177,7 +185,7 @@ class Player extends Activeness {
       }
     } else if (key == SPACE) {
       pauseOrPlay();
-    } else if (key == 's') {
+    } else if (key == 'i') {
       increaseSpeed(0.05);
     } else if (key == 'd') {
       decreaseSpeed(0.05);
@@ -187,12 +195,16 @@ class Player extends Activeness {
       println("--------- Movie Stopped ---------\n");
       movie.stop();
       mov.initActivity('c');
+    } else if(key == 's') {
+      subtitle.disable();
+      selectInput("Select a subtitle to open:", "subtitleSelected");
     }
   }
 
   //jumps to specific location by clicking on the time bar
   void jumpTo(float location) {
     float time = map(location, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, duration);
+    
     //println(formatTime(int(time)));
     movie.jump(time);
   }
@@ -237,5 +249,36 @@ class Player extends Activeness {
     speed += change;
     movie.speed(speed);
     println(speed);
+  }
+
+  //checks whether current movie has any subtitles or not
+  void subtitleCheck(String moviePath) {
+    String[] pathParts = split(moviePath, "\\");
+    String movieDirectoryPath = "";
+    int subtitlesCount = 0;
+
+    //store the movie Directory path
+    for (int i = 0; i < pathParts.length-1; i++) {
+      movieDirectoryPath += pathParts[i] + "\\";
+    }
+
+    File file = new File(movieDirectoryPath);
+    if (file.isDirectory()) {
+      String[] names = file.list();
+      for (int i = 0; i < names.length; i++) {
+        if (hasExtension(names[i], ".srt")) {
+          subtitlesCount++;
+          if (subtitlesCount == 1) {
+            //take first subtitles as default
+            String subtitleFullPath = movieDirectoryPath+names[i];
+            subtitle = new SubtitleReader(subtitleFullPath, new PVector(DISPLAY_WIDTH/2, DISPLAY_HEIGHT-4*PLAYER_MARGIN));
+            println(subtitleFullPath);
+          }
+        }
+      }
+      if (subtitlesCount < 1) println("No subtitles, SORRY :)");
+    } else {
+      println("Not a directory !!!");
+    }
   }
 }

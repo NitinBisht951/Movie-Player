@@ -1,7 +1,7 @@
 class VideoDisplayer {
   private String title;
   private String path;
-  private PImage poster = null;
+  //private PImage poster = null;
 
   //coordinates of corner and height and width
   private PVector corner;
@@ -9,8 +9,8 @@ class VideoDisplayer {
   private float vidHeight = VID_DISPLAYER_HEIGHT;
 
   private Button playButton;
-  private Button previewButton;
-  private Button removeButton;
+  //private Button previewButton;
+  //private Button removeButton;
 
   private boolean isEmpty;                        //keeps track of the history
 
@@ -20,7 +20,7 @@ class VideoDisplayer {
     this.path = path;
     this.corner = corner;
     this.playButton = new Button(PLAY_CIRCLE_MEDIUM);
-    this.removeButton = new Button(REMOVE_BUTTON);
+    //this.removeButton = new Button(REMOVE_BUTTON);
     isEmpty = true;
   }
 
@@ -65,7 +65,7 @@ class VideoDisplayer {
 
   void updateVideo(String path) {
     this.path = path;
-    this.title = getNameFromPath(path);
+    this.title = removeExtension(getNameFromPath(path));
     this.isEmpty = false;
   }
 

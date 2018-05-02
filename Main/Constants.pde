@@ -20,7 +20,7 @@ final static float TITLE_MARGIN_FACTOR = 0.85;
 final static float LIGHT_WEIGHT = 3;
 final static float HEAVY_WEIGHT = 5;
 
-final static color BACKGROUND_COLOR = #4B4B4B;                    //#4B4B4B; //#11D612; //#1D0339;
+final static color BACKGROUND_COLOR = #163B2F;                    //#4B4B4B; //#11D612; //#1D0339;
 final static color VIDEODISPLAYER_COLOR = #0EC66F;                 //#7722D3  #0BE37C  #0A08FF  0EC66F
 final static color VIDEODISPLAYER_STROKE_COLOR = #FFFFFF;
 
