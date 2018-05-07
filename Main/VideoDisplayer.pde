@@ -53,11 +53,13 @@ class VideoDisplayer {
     rect(corner.x, corner.y+TITLE_MARGIN_FACTOR*vidHeight, vidWidth, (1-TITLE_MARGIN_FACTOR)*vidHeight, 0, 0, RADII, RADII);
 
     fill(0);
-    textSize(60*vidHeight/DISPLAY_HEIGHT);
+    pushStyle();
+    textFont(CALIBRI_FONT, 15);
     float text_X = corner.x + CANVAS_MARGIN*0.25;
     float text_Y = corner.y + vidHeight*0.87;
     text(title, text_X, text_Y, vidWidth*0.97, vidHeight*0.1);
 
+    popStyle();
     //places the play button at the center of the VideoBar
     playButton.draw(corner.x+vidWidth/2, corner.y+vidHeight/2-10);
     //removeButton.draw(corner.x+vidWidth-removeButton.getWidth()/2-8,corner.y+removeButton.getHeight()/2+8);

@@ -12,6 +12,7 @@ class SubtitleReader extends Activeness {
 
   SubtitleReader(String fullPath, PVector centerPosition) {
     init(fullPath);
+    
     this.centerPosition = centerPosition;
   }
 
@@ -51,8 +52,9 @@ class SubtitleReader extends Activeness {
   }
 
   void show(float movieCurrentTime) {
+    pushStyle();
     textAlign(CENTER);
-    textSize(28);
+    textFont(GEORGIA_FONT);
     if (movieCurrentTime > startTime && movieCurrentTime < endTime) {
       text(currentSubtitle, centerPosition.x, centerPosition.y);
     } else if (movieCurrentTime <= startTime) {
@@ -61,6 +63,7 @@ class SubtitleReader extends Activeness {
       //get next subtitle, update count, startTime and endTime
       readNextSubtitle();
     }
+    popStyle();
   }
 
   //change subtitle if there is wrong one at present 

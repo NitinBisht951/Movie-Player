@@ -10,15 +10,16 @@ PApplet mySketch;
 String pathTextFile;
 StringList pathLists = new StringList();
 
+PFont GEORGIA_FONT;
+PFont CALIBRI_FONT;
+
 void setup() {
   fullScreen();
   pathTextFile = sketchPath()+"/path.txt";
-
-  // first check whether the path.txt exists or not
-  // if it doesn't create one
-  checkFileExistence(pathTextFile);
-  pathLists.append(loadStrings(dataPath(pathTextFile)));
-  verifyPaths(pathLists);
+  GEORGIA_FONT = createFont("Georgia", 32);
+  CALIBRI_FONT = createFont("Calibri", 32);
+  
+  moviePathsInit();
 
   mySketch = this;
   mov = new MoviePlayer();
@@ -26,6 +27,14 @@ void setup() {
 
 void draw() {
   mov.start();
+}
+
+void moviePathsInit() {
+  // first check whether the path.txt exists or not
+  // if it doesn't create one
+  checkFileExistence(pathTextFile);
+  pathLists.append(loadStrings(dataPath(pathTextFile)));
+  verifyPaths(pathLists);
 }
 
 void movieEvent(Movie m) {
