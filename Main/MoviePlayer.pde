@@ -12,7 +12,9 @@ class MoviePlayer {
   }
 
   void start() {
-    background(BACKGROUND_COLOR);
+    //background(BACKGROUND_COLOR);
+    image(background, 0, 0);
+
     if (canvas.isActive()) {
       canvas.show();
     } else if (player.isActive()) {

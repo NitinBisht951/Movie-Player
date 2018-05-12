@@ -2,8 +2,7 @@ class Button {
   private PImage buttonImg;
   private PVector center;
   private float bWidth;
-  private float bHeight;
-  
+  private float bHeight;  
 
   Button(String imgName) {
     buttonImg = loadImage(imgName);
@@ -25,7 +24,7 @@ class Button {
     rectMode(CORNER);
     draw(centerX, centerY);
   }
-  
+
   void changeImg(String imgName) {
     buttonImg = loadImage(imgName);
   }
@@ -38,9 +37,25 @@ class Button {
     return bHeight;
   }
 
+  boolean isOverButton() {
+    return (mouseY < center.y+bHeight/2)&&(mouseY > center.y-bHeight/2)&&(mouseX < center.x+bWidth/2)&&(mouseX > center.x-bWidth/2);
+  }
+
   boolean isClicked() {
-    if ((mouseY < center.y+bHeight/2)&&(mouseY > center.y-bHeight/2)&&(mouseX < center.x+bWidth/2)&&(mouseX > center.x-bWidth/2)) 
+    if (isOverButton()) 
       return true;
     else return false;
+  }
+
+  void hoverOverButton(boolean circularShape, float outerRadius) {
+    fill(255,60);
+    noStroke();
+    if (circularShape) {
+      ellipse(center.x, center.y, outerRadius, outerRadius);
+    } else {
+      rectMode(CENTER);
+      rect(center.x, center.y, buttonImg.width, buttonImg.height, outerRadius);
+      rectMode(CORNER);
+    }
   }
 }

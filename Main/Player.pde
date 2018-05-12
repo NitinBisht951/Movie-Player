@@ -47,7 +47,7 @@ class Player extends Activeness {
     this.path = moviePath;
     this.movieName = removeExtension(getNameFromPath(moviePath));
     movie = new Movie(sketch, moviePath);
-    subtitleCheck(path);
+    subtitleCheck();
   }
 
   void begin() {
@@ -72,9 +72,11 @@ class Player extends Activeness {
       image(movie, width/2, height/2);
       imageMode(CORNER);
     }
-    
+
     //show subtitles
-    if(subtitle.isActive()) subtitle.show(movie.time());
+    if (hasSubtitle) {
+      if (subtitle.isActive()) subtitle.show(movie.time());
+    }
 
     // to display the time bar and movie name
     if (showBarCount >= 0) {
@@ -146,10 +148,13 @@ class Player extends Activeness {
   }
 
   void showMovieName() {
-    textSize(40);                                          //settings for showing time and total length of movie
+    pushStyle();
+    textFont(COURIER_NEW_BOLD_FONT, 40);
+    //textSize(40);                                          //settings for showing time and total length of movie
     textAlign(LEFT, TOP);
     text(movieName, 1.4*PLAYER_MARGIN, 2*PLAYER_MARGIN);
     textAlign(LEFT, BASELINE);
+    popStyle();
   }
 
   //tells whether the mouse is over the time bar
@@ -195,16 +200,13 @@ class Player extends Activeness {
       println("--------- Movie Stopped ---------\n");
       movie.stop();
       mov.initActivity('c');
-    } else if(key == 's') {
-      subtitle.disable();
-      selectInput("Select a subtitle to open:", "subtitleSelected");
     }
   }
 
   //jumps to specific location by clicking on the time bar
   void jumpTo(float location) {
     float time = map(location, 2*PLAYER_MARGIN, width-2*PLAYER_MARGIN, 0, duration);
-    
+
     //println(formatTime(int(time)));
     movie.jump(time);
   }
@@ -252,31 +254,34 @@ class Player extends Activeness {
   }
 
   //checks whether current movie has any subtitles or not
-  void subtitleCheck(String moviePath) {
-    String[] pathParts = split(moviePath, "\\");
+  void subtitleCheck() {
+    String[] pathParts = split(path, "\\");
     String movieDirectoryPath = "";
-    int subtitlesCount = 0;
-
+    int subtitleFilesCount = 0;
+    String subtitleFullPath = "";
     //store the movie Directory path
     for (int i = 0; i < pathParts.length-1; i++) {
       movieDirectoryPath += pathParts[i] + "\\";
     }
-
     File file = new File(movieDirectoryPath);
     if (file.isDirectory()) {
       String[] names = file.list();
       for (int i = 0; i < names.length; i++) {
         if (hasExtension(names[i], ".srt")) {
-          subtitlesCount++;
-          if (subtitlesCount == 1) {
+          subtitleFilesCount++;
+          if (subtitleFilesCount == 1) {
             //take first subtitles as default
-            String subtitleFullPath = movieDirectoryPath+names[i];
+            subtitleFullPath = movieDirectoryPath + names[i];
             subtitle = new SubtitleReader(subtitleFullPath, new PVector(DISPLAY_WIDTH/2, DISPLAY_HEIGHT-4*PLAYER_MARGIN));
             println(subtitleFullPath);
+            hasSubtitle = true;
           }
         }
       }
-      if (subtitlesCount < 1) println("No subtitles, SORRY :)");
+      if (subtitleFilesCount < 1) { 
+        println("No sububtitles"); 
+        hasSubtitle = false;
+      }
     } else {
       println("Not a directory !!!");
     }

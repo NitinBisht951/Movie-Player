@@ -20,8 +20,8 @@ final static float TITLE_MARGIN_FACTOR = 0.85;
 final static float LIGHT_WEIGHT = 3;
 final static float HEAVY_WEIGHT = 5;
 
-final static color BACKGROUND_COLOR = #163B2F;                    //#4B4B4B; //#11D612; //#1D0339;
-final static color VIDEODISPLAYER_COLOR = #0EC66F;                 //#7722D3  #0BE37C  #0A08FF  0EC66F
+final static color BACKGROUND_COLOR = #4B4B4B;                    //#4B4B4B; //#11D612; //#1D0339;
+final static color VIDEODISPLAYER_COLOR = #000000;                 //#7722D3  #0BE37C  #0A08FF  0EC66F
 final static color VIDEODISPLAYER_STROKE_COLOR = #FFFFFF;
 
 //different viewing modes of videoBars in Canvas
@@ -65,6 +65,7 @@ final static String CLOSE_SMALL = "close_small.png";
 final static String CLOSE_MEDIUM = "close_medium.png";
 final static String CLOSE_LARGE = "close_large.png";
 final static String CLOSE_CIRCLE_SMALL = "close_circle_small.png";
+final static String CLOSE_RECT_SMALL = "close_rect_small.png";
 
 final static String PAUSE_SMALL = "pause_small.png";
 final static String PAUSE_MEDIUM = "pause_medium.png";

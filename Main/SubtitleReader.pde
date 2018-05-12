@@ -1,5 +1,5 @@
 class SubtitleReader extends Activeness {
-  String[] subtitle;
+  String[] subtitleText;
   String fullPath;
   PVector centerPosition;
 
@@ -8,11 +8,10 @@ class SubtitleReader extends Activeness {
   float startTime;                      //start time of showing current subtitle
   float endTime;                        //end time of showing current subtitle
 
-  int lastIndex;
+  int lastSubtitleIndex;
 
   SubtitleReader(String fullPath, PVector centerPosition) {
     init(fullPath);
-    
     this.centerPosition = centerPosition;
   }
 
@@ -21,13 +20,13 @@ class SubtitleReader extends Activeness {
     this.fullPath = fullPath;
     this.startTime = 0;
     this.endTime = 0;
-    this.lastIndex = 0;
+    this.lastSubtitleIndex = 0;
     isActive = true;
-    subtitle = loadStrings(fullPath);
+    subtitleText = loadStrings(fullPath);
   }
 
   private void setTimings(int index) {
-    int[] t = int(splitTokens(subtitle[index], ":,-> "));
+    int[] t = int(splitTokens(subtitleText[index], ":,-> "));
     startTime = t[0]*3600.0 + t[1]*60.0 + t[2] + t[3]/1000.0;
     endTime = t[4]*3600.0 + t[5]*60.0 + t[6] + t[7]/1000.0;
   }
@@ -35,13 +34,18 @@ class SubtitleReader extends Activeness {
   void readNextSubtitle() {
     currentSubtitle = "";
     count++;
-    for (int i = lastIndex; i < subtitle.length-1; i++) {
-      if (int(subtitle[i]) == count || i == 0) {
+    for (int i = lastSubtitleIndex; i < subtitleText.length-1; i++) {
+      //println(int(subtitleText[i]));
+      if (count == 2) { 
+        println("true"); 
+        count = int(subtitleText[i]);
+      }
+      if (int(subtitleText[i]) == count || i == 0) {
         setTimings(i+1);
-        for (int j = i+2; j < subtitle.length; ) {
-          currentSubtitle += subtitle[j] ;
-          if (int(subtitle[++j]) == count+1) {
-            lastIndex = j;
+        for (int j = i+2; j < subtitleText.length-1; j++) {
+          currentSubtitle += subtitleText[j] ;
+          if (int(subtitleText[j+1]) == count+1) {
+            lastSubtitleIndex = j+1;
             break;
           }
           currentSubtitle += "\n";
@@ -54,7 +58,7 @@ class SubtitleReader extends Activeness {
   void show(float movieCurrentTime) {
     pushStyle();
     textAlign(CENTER);
-    textFont(GEORGIA_FONT);
+    textFont(SEGOEUI_FONT);
     if (movieCurrentTime > startTime && movieCurrentTime < endTime) {
       text(currentSubtitle, centerPosition.x, centerPosition.y);
     } else if (movieCurrentTime <= startTime) {

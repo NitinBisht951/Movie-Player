@@ -10,15 +10,24 @@ PApplet mySketch;
 String pathTextFile;
 StringList pathLists = new StringList();
 
+PImage background;
+
 PFont GEORGIA_FONT;
-PFont CALIBRI_FONT;
+PFont LEXIA_FONT;
+PFont SEGOEUI_FONT;
+PFont COURIER_NEW_BOLD_FONT;
 
 void setup() {
   fullScreen();
+  background = loadImage("wall.jpg");
   pathTextFile = sketchPath()+"/path.txt";
-  GEORGIA_FONT = createFont("Georgia", 32);
-  CALIBRI_FONT = createFont("Calibri", 32);
+  GEORGIA_FONT = loadFont("Georgia-32.vlw");
+  COURIER_NEW_BOLD_FONT = loadFont("CourierNewPS-BoldMT-32.vlw");
+  LEXIA_FONT = loadFont("Lexia-Regular-32.vlw");
+  SEGOEUI_FONT = loadFont("SegoeUI-Bold-32.vlw");
   
+  textFont(LEXIA_FONT, 14);
+
   moviePathsInit();
 
   mySketch = this;

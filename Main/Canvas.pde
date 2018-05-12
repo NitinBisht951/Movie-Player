@@ -13,17 +13,21 @@ class Canvas extends Activeness {
 
   //constructor
   Canvas() {
-    vidBox = new VideosListBox(CANVAS_LEFT_MARGIN,CANVAS_TOP_MARGIN);
+    vidBox = new VideosListBox(CANVAS_LEFT_MARGIN, CANVAS_TOP_MARGIN);
     //buttons
     openVideoButton = new Button(OPEN_BUTTON);
-    closeButton = new Button(CLOSE_CIRCLE_SMALL);
+    closeButton = new Button(CLOSE_RECT_SMALL);
   }
 
   void show() {
     //show open video button at the topleft corner
     openVideoButton.draw(CANVAS_LEFT_MARGIN+openVideoButton.getWidth()/2, CANVAS_LEFT_MARGIN+openVideoButton.getHeight()/2);
+    if (openVideoButton.isOverButton()) openVideoButton.hoverOverButton(false,13);
+    
     //show close button at the topright corner
     closeButton.draw(DISPLAY_WIDTH-closeButton.getWidth()/2-8, closeButton.getHeight()/2+8);
+    if (closeButton.isOverButton()) closeButton.hoverOverButton(false,8);
+
 
     //show video list Box
     vidBox.draw();

@@ -32,13 +32,13 @@ class VideoDisplayer {
   }
 
   void draw(boolean isActive) {
-    final float RADII = 4;
+    final float RADII = 2;
     noStroke();
     fill(0, 50);
 
     if (isActive) {
       //draw shadow of the rect
-      rect(corner.x+RADII, corner.y+RADII, vidWidth, vidHeight, RADII);
+      rect(corner.x+RADII, corner.y+RADII, vidWidth-2*RADII, vidHeight+4, RADII+4);
       stroke(VIDEODISPLAYER_STROKE_COLOR);
       strokeWeight(LIGHT_WEIGHT);
     } else {
@@ -54,14 +54,15 @@ class VideoDisplayer {
 
     fill(0);
     pushStyle();
-    textFont(CALIBRI_FONT, 15);
     float text_X = corner.x + CANVAS_MARGIN*0.25;
-    float text_Y = corner.y + vidHeight*0.87;
+    float text_Y = corner.y + vidHeight*0.89;
     text(title, text_X, text_Y, vidWidth*0.97, vidHeight*0.1);
 
     popStyle();
     //places the play button at the center of the VideoBar
     playButton.draw(corner.x+vidWidth/2, corner.y+vidHeight/2-10);
+    if (playButton.isOverButton()) playButton.hoverOverButton(true,35);
+
     //removeButton.draw(corner.x+vidWidth-removeButton.getWidth()/2-8,corner.y+removeButton.getHeight()/2+8);
   }
 
