@@ -120,9 +120,9 @@ class Player extends Activeness {
     rect(PLAYER_MARGIN, height-3.2*PLAYER_MARGIN, 10*PLAYER_MARGIN, 1.2*PLAYER_MARGIN, 3);
 
     fill(0);
-    textSize(20);                                          //settings for showing time and total length of movie
+    textSize(23);                                          //settings for showing time and total length of movie
     textAlign(LEFT, TOP);
-    text(formatTime(int(movie.time()))+"/"+durationString, 1.4*PLAYER_MARGIN, height-3.2*PLAYER_MARGIN);
+    text(formatTime(int(movie.time()))+"/"+durationString, 1.5*PLAYER_MARGIN, height-3.1*PLAYER_MARGIN);
     textAlign(LEFT, BASELINE);
 
     stroke(0);
@@ -149,7 +149,7 @@ class Player extends Activeness {
 
   void showMovieName() {
     pushStyle();
-    textFont(COURIER_NEW_BOLD_FONT, 40);
+    textFont(COURIER_FONT, 40);
     //textSize(40);                                          //settings for showing time and total length of movie
     textAlign(LEFT, TOP);
     text(movieName, 1.4*PLAYER_MARGIN, 2*PLAYER_MARGIN);
@@ -272,7 +272,7 @@ class Player extends Activeness {
           if (subtitleFilesCount == 1) {
             //take first subtitles as default
             subtitleFullPath = movieDirectoryPath + names[i];
-            subtitle = new SubtitleReader(subtitleFullPath, new PVector(DISPLAY_WIDTH/2, DISPLAY_HEIGHT-4*PLAYER_MARGIN));
+            subtitle = new SubtitleReader(subtitleFullPath, new PVector(DISPLAY_WIDTH/2, DISPLAY_HEIGHT-4.2*PLAYER_MARGIN));
             println(subtitleFullPath);
             hasSubtitle = true;
           }

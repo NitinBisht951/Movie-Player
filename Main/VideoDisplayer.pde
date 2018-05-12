@@ -54,6 +54,7 @@ class VideoDisplayer {
 
     fill(0);
     pushStyle();
+    textFont(LEXIA_FONT, 14);
     float text_X = corner.x + CANVAS_MARGIN*0.25;
     float text_Y = corner.y + vidHeight*0.89;
     text(title, text_X, text_Y, vidWidth*0.97, vidHeight*0.1);
@@ -61,7 +62,7 @@ class VideoDisplayer {
     popStyle();
     //places the play button at the center of the VideoBar
     playButton.draw(corner.x+vidWidth/2, corner.y+vidHeight/2-10);
-    if (playButton.isOverButton()) playButton.hoverOverButton(true,35);
+    if (playButton.isOverButton()) playButton.hoverOverButton(true, 35);
 
     //removeButton.draw(corner.x+vidWidth-removeButton.getWidth()/2-8,corner.y+removeButton.getHeight()/2+8);
   }
