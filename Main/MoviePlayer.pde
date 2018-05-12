@@ -51,6 +51,9 @@ class MoviePlayer {
 
   void keyPressed() {
     if (key == 'y') saveFrame();
+    else if (key == ESC) {
+      pathManager.saveAndExit(); 
+    }
     else if (canvas.isActive()) canvas.keyPressed();
     else if (player.isActive()) player.keyPressed();
   }

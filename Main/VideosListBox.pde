@@ -36,9 +36,17 @@ class VideosListBox {
   void mouseClicked() {
     for (int i = 0; i < NO_OF_VIDS; i++) {
       if (videoDisplayer[i].isEmpty()) return;
-      if (videoDisplayer[i].mouseClicked()) {
+      if (videoDisplayer[i].playButtonClicked()) {
         openVideoAtIndex(i);
-      }
+        break;
+      } else if (videoDisplayer[i].removeButtonClicked()) {
+        removeVideoAtIndex(i);
+        break;
+      } 
+      //else if (videoDisplayer[i].previewButtonClicked()) {
+      //  previewVideoAtIndex(i);
+      //  break;
+      //}
     }
   }
 
@@ -67,6 +75,14 @@ class VideosListBox {
     } else {
       println("There is no such file existing");
     }
+  }
+
+  void removeVideoAtIndex(int index) {
+    println("removed "+pathLists.get(pathLists.size()-1-index));
+    pathLists.remove(pathLists.size()-1-index);
+    for (int i = index; i < NO_OF_VIDS; i++)
+      videoDisplayer[i].clearVideo(i);
+    update();
   }
 
   int getVideoIndexMouseIsOver() {

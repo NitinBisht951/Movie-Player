@@ -8,10 +8,12 @@ class Button {
     buttonImg = loadImage(imgName);
     bWidth = buttonImg.width;
     bHeight = buttonImg.height;
+    center = new PVector(0, 0);
   }
 
   void draw(float centerX, float centerY) {
-    center = new PVector(centerX, centerY);
+    center.x = centerX;
+    center.y = centerY;
     imageMode(CENTER);
     image(buttonImg, centerX, centerY);
     imageMode(CORNER);              //default
@@ -48,7 +50,7 @@ class Button {
   }
 
   void hoverOverButton(boolean circularShape, float outerRadius) {
-    fill(255,60);
+    fill(255,100);
     noStroke();
     if (circularShape) {
       ellipse(center.x, center.y, outerRadius, outerRadius);

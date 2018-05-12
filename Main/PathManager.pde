@@ -5,7 +5,6 @@ class PathManager {
     pathTextFile = sketchPath()+"/path.txt";
   }
 
-
   void init() {
     // first check whether the path.txt exists or not
     // if it doesn't create one
@@ -76,12 +75,9 @@ class PathManager {
     if (pList.hasValue(newPath)) {
       for (int i = 0; i < pList.size(); i++) {
         String[] stringArray = pList.array();
-        //print(i, parent.size());
-        //println(",", getNameFromPath(stringArray[i]), getNameFromPath(parent.get(i)));
         if (stringArray[i].equals(newPath)) {
           pList.remove(i);
           i--;
-          //print("del ");
         }
       }
       return true;
@@ -115,5 +111,10 @@ class PathManager {
         }
       }
     }
+  }
+  
+  void saveAndExit() {
+    saveStrings(pathTextFile, pathLists.array());
+    exit();
   }
 }

@@ -10,7 +10,7 @@ class VideoDisplayer {
 
   private Button playButton;
   //private Button previewButton;
-  //private Button removeButton;
+  private Button removeButton;
 
   private boolean isEmpty;                        //keeps track of the history
 
@@ -20,7 +20,7 @@ class VideoDisplayer {
     this.path = path;
     this.corner = corner;
     this.playButton = new Button(PLAY_CIRCLE_MEDIUM);
-    //this.removeButton = new Button(REMOVE_BUTTON);
+    this.removeButton = new Button(REMOVE_BUTTON);
     isEmpty = true;
   }
 
@@ -64,13 +64,22 @@ class VideoDisplayer {
     playButton.draw(corner.x+vidWidth/2, corner.y+vidHeight/2-10);
     if (playButton.isOverButton()) playButton.hoverOverButton(true, 35);
 
-    //removeButton.draw(corner.x+vidWidth-removeButton.getWidth()/2-8,corner.y+removeButton.getHeight()/2+8);
+    if (isActive && !isEmpty) {
+      removeButton.draw(corner.x+vidWidth-removeButton.getWidth()/2-8, corner.y+removeButton.getHeight()/2+8);
+      if (removeButton.isOverButton()) removeButton.hoverOverButton(true, 15);
+    }
   }
 
   void updateVideo(String path) {
     this.path = path;
     this.title = removeExtension(getNameFromPath(path));
     this.isEmpty = false;
+  }
+
+  void clearVideo(int index) {
+    this.path = "Path";
+    this.title = "Title "+ index;
+    this.isEmpty = true;
   }
 
   String getPath() {
@@ -88,13 +97,24 @@ class VideoDisplayer {
     } else return false;
   }
 
-  boolean mouseClicked() {
+  boolean playButtonClicked() {
     if (playButton.isClicked()) {
       //play that video
       return true;
     } else return false;
-    // else if (previewButton.isClicked()) {
-    //  //preview that video
-    //}
   }
+
+  boolean removeButtonClicked() {
+    if (removeButton.isClicked()) {
+      //remove that video
+      return true;
+    } else return false;
+  }
+
+  //boolean previewButtonClicked() {
+  //  if (previewButton.isClicked()) {
+  //    //play that video
+  //    return true;
+  //  } else return false;
+  //}
 }

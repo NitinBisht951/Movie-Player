@@ -18,6 +18,8 @@ PFont COURIER_FONT;
 
 void setup() {
   fullScreen();
+  mySketch = this;
+
   background = loadImage("wall.jpg");
   COURIER_FONT = loadFont("CourierNewPS-BoldMT-32.vlw");
   LEXIA_FONT = loadFont("Lexia-Regular-32.vlw");
@@ -25,8 +27,6 @@ void setup() {
 
   pathManager = new PathManager();
   pathManager.init();
-
-  mySketch = this;
   mov = new MoviePlayer();
 }
 

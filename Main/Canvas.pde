@@ -56,7 +56,7 @@ class Canvas extends Activeness {
       //opens a thread to get the path of the video opened
       selectInput("Select a video to open:", "movieSelected");
     } else if (closeButton.isClicked()) {
-      exit();
+      pathManager.saveAndExit();
     } else {
       vidBox.mouseClicked();
     }
